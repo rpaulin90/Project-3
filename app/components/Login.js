@@ -31,6 +31,7 @@ class Login extends Component {
         };
         // Binding handleInputChange and handleButtonClick since we'll be passing them as
         // callbacks and 'this' will change otherwise
+        
         this.handleInputChangeName = this.handleInputChangeName.bind(this);
         this.handleInputChangeEmail = this.handleInputChangeEmail.bind(this);
         this.handleInputChangePwd = this.handleInputChangePwd.bind(this);
@@ -45,7 +46,7 @@ class Login extends Component {
         this.changeForm = this.changeForm.bind(this);
     }
     componentDidMount() {
-        auth.onAuthStateChanged((user) => {
+        this.fireBaseListener = auth.onAuthStateChanged((user) => {
             if (user) {
                 let that = this;
                 const uid = auth.currentUser.uid;
@@ -55,6 +56,9 @@ class Login extends Component {
 
             }
         });
+    }
+    componentWillUnmount() {
+        this.fireBaseListener && this.fireBaseListener();
     }
     handleInputChangeName(event) {
         this.setState({ inputValueName: event.target.value });
@@ -140,8 +144,17 @@ class Login extends Component {
         auth.signOut()
             .then(() => {
                 that.setState({
-                    user: null,
-                    currentUid: ""
+                    loginForm: "Register",
+                    inputValueName: "",
+                    inputValueEmail: "",
+                    inputValuePwd: "",
+                    inputValueTeam: "",
+                    inputValueCode: "",
+                    currentUid:"",
+                    managedTeams:[],
+                    notManagedTeams: [],
+                    count: 0,
+                    user: null // <-- add this line
                 });
             });
 
@@ -159,8 +172,10 @@ class Login extends Component {
         return this.state.managedTeams.map((team,i) => (
             <ManagedTeam
                 team={team.name}
-                key={team._id}
+                _id={team._id}
+                key={i}
                 getTeams={this.getTeams}
+                uid={this.state.currentUid}
             />
         ));
 
@@ -173,8 +188,10 @@ class Login extends Component {
         return this.state.notManagedTeams.map((team,i) => (
             <NotManagedTeam
                 team={team.name}
+                _id={team._id}
                 key={i}
                 getTeams={this.getTeams}
+                uid={this.state.currentUid}
             />
         ));
 
