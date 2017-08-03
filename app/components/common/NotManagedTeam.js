@@ -1,22 +1,16 @@
 /**
- * Created by rpaulin on 8/1/17.
+ * Created by rpaulin on 8/2/17.
  */
 import React, { Component } from "react";
 import API from "../../utils/API";
 
-class ManagedTeam extends Component {
+class NotManagedTeam extends Component {
 
     render() {
         return (
             <div className="container-fluid">
                 <div className="panel panel-default" style={{margin: "10px"}}>
                     <div className="panel-body" style={{cursor: "pointer"}}>
-                        <i
-                            //onClick={() => this.favoriteQuote(this.props.quote)}
-                            style={styles.favoriteStyle}
-                            className="fa fa-trophy"
-                            aria-hidden="true"
-                        />
                         <i
                             //onClick={() => this.deleteQuote(this.props.quote._id)}
                             style={styles.deleteStyle}
@@ -46,4 +40,4 @@ const styles = {
     }
 };
 
-export default ManagedTeam;
+export default NotManagedTeam;

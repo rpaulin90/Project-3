@@ -14,6 +14,9 @@ const API = {
     },
     newTeam: function(uid,team) {
         return axios.post("/api/newTeam", { uid,team });
+    },
+    joinTeam: function(uid,code) {
+        return axios.post("/api/joinTeam", { uid,code });
     }
     // Deletes a quote from the db
     // deleteQuote: function(id) {

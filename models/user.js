@@ -9,8 +9,14 @@ var userSchema = new Schema({
     name: String,
     email: String,
     uid: String,
-    managedTeams: Array,
-    notManagedTeams: Array
+    managedTeams: [{
+        type: Schema.Types.ObjectId,
+        ref: "Team"
+    }],
+    notManagedTeams: [{
+        type: Schema.Types.ObjectId,
+        ref: "Team"
+    }]
 });
 
 var User = mongoose.model("User", userSchema);

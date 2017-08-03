@@ -8,16 +8,21 @@ import { Link } from "react-router";
 import firebase, { auth } from '../firebase.js';
 import API from "../utils/API";
 import ManagedTeam from "./common/ManagedTeam";
+import NotManagedTeam from "./common/NotManagedTeam";
+import RegisterForm from "./common/RegisterForm";
+
 
 class Login extends Component {
 
     constructor() {
         super();
         this.state = {
+            loginForm: "Register",
             inputValueName: "",
             inputValueEmail: "",
             inputValuePwd: "",
             inputValueTeam: "",
+            inputValueCode: "",
             currentUid:"",
             managedTeams:[],
             notManagedTeams: [],
@@ -30,10 +35,14 @@ class Login extends Component {
         this.handleInputChangeEmail = this.handleInputChangeEmail.bind(this);
         this.handleInputChangePwd = this.handleInputChangePwd.bind(this);
         this.handleInputChangeTeam = this.handleInputChangeTeam.bind(this);
+        this.handleInputChangeCode = this.handleInputChangeCode.bind(this);
         this.handleButtonClick = this.handleButtonClick.bind(this);
+        this.handleButtonClickLogin = this.handleButtonClickLogin.bind(this);
         this.handleCreateTeam = this.handleCreateTeam.bind(this);
+        this.handleJoinTeam = this.handleJoinTeam.bind(this);
         this.getTeams = this.getTeams.bind(this);
         this.logout = this.logout.bind(this);
+        this.changeForm = this.changeForm.bind(this);
     }
     componentDidMount() {
         auth.onAuthStateChanged((user) => {
@@ -59,6 +68,9 @@ class Login extends Component {
     handleInputChangeTeam(event) {
         this.setState({ inputValueTeam: event.target.value });
     }
+    handleInputChangeCode(event) {
+        this.setState({ inputValueCode: event.target.value });
+    }
     handleButtonClick(event) {
         var that = this;
         event.preventDefault();
@@ -82,15 +94,43 @@ class Login extends Component {
         });
 
     }
+    handleButtonClickLogin(event) {
+        const that = this;
+        event.preventDefault();
+
+        auth.signInWithEmailAndPassword(that.state.inputValueEmail, that.state.inputValuePwd).then(function () {
+
+            that.setState({inputValueEmail: "", inputValuePwd: "" });
+
+        }).catch(function (error) {
+
+            if (error) {
+                console.log("something went wrong");
+                console.log(error)
+            }
+
+        });
+
+    }
     handleCreateTeam(event) {
 
-        const that = this;
         event.preventDefault();
         const team = this.state.inputValueTeam;
 
 
-        API.newTeam(this.state.currentUid, team).then(this.getTeams());
+        API.newTeam(this.state.currentUid, team).then(this.getTeams);
         this.setState({ inputValueTeam: "" });
+
+
+    }
+    handleJoinTeam(event) {
+
+        event.preventDefault();
+        const code = this.state.inputValueCode;
+
+
+        API.joinTeam(this.state.currentUid, code).then(this.getTeams);
+        this.setState({ inputValueCode: "" });
 
 
     }
@@ -109,19 +149,47 @@ class Login extends Component {
 
     getTeams() {
         API.getUserInfo(this.state.currentUid).then((res) => {
+            console.log(res.data);
             this.setState({ managedTeams: res.data[0].managedTeams, notManagedTeams: res.data[0].notManagedTeams });
         });
     }
 
     renderTeams() {
 
-        return this.state.managedTeams.map(team => (
+        return this.state.managedTeams.map((team,i) => (
             <ManagedTeam
-                team={team}
-                key={team}
+                team={team.name}
+                key={team._id}
                 getTeams={this.getTeams}
             />
         ));
+
+
+
+    }
+
+    renderNotManagedTeams() {
+
+        return this.state.notManagedTeams.map((team,i) => (
+            <NotManagedTeam
+                team={team.name}
+                key={i}
+                getTeams={this.getTeams}
+            />
+        ));
+
+
+
+    }
+    changeForm(event) {
+
+        event.preventDefault();
+        if(this.state.loginForm === "Register"){
+            this.setState({ loginForm: "Login" });
+        }else{
+            this.setState({ loginForm: "Register" });
+        }
+
 
     }
     render() {
@@ -131,7 +199,7 @@ class Login extends Component {
                 {this.state.user ?
 
                     <div className='wrapper'>
-                        <nav style={{ marginBottom: "20px" }} className="navbar navbar-inverse">
+                        <nav style={{marginBottom: "20px"}} className="navbar navbar-inverse">
                             <div className="container-fluid">
                                 <div className="navbar-header">
                                     <Link className="navbar-brand" to="/">Sunday League MGMT</Link>
@@ -143,7 +211,7 @@ class Login extends Component {
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
-                                        <a onClick={this.logout}>Logout</a>
+                                        <a onClick={this.logout} style={{cursor: "pointer"}}>Logout</a>
                                     </li>
                                 </ul>
                             </div>
@@ -158,6 +226,10 @@ class Login extends Component {
                                         <hr />
                                         {this.renderTeams()}
                                     </div>
+                                    <div>
+                                        <hr />
+                                        {this.renderNotManagedTeams()}
+                                    </div>
                                 </div>
                             </div>
                             <div className="col-xs-4">
@@ -167,12 +239,14 @@ class Login extends Component {
                                         <form>
                                             <label className="control-label col-sm-2">Team Name:</label>
                                             <div className="col-sm-10">
-                                                <input onChange={this.handleInputChangeTeam} value={this.state.inputValueTeam}  className="form-control" id="name" placeholder="Enter new team's name"/>
+                                                <input onChange={this.handleInputChangeTeam} value={this.state.inputValueTeam}
+                                                       className="form-control" id="name" placeholder="Enter new team's name"/>
                                             </div>
                                         </form>
                                         <div className="form-group">
                                             <div className="col-sm-offset-2 col-sm-10">
-                                                <button className="btn btn-default" onClick={this.handleCreateTeam}>Submit</button>
+                                                <button className="btn btn-default" onClick={this.handleCreateTeam}>Submit
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -182,49 +256,38 @@ class Login extends Component {
                                 <div className="panel panel-default">
                                     <div className="panel-body">
                                         Join a Team
+                                        <form>
+                                            <label className="control-label col-sm-2">Code:</label>
+                                            <div className="col-sm-10">
+                                                <input onChange={this.handleInputChangeCode} value={this.state.inputValueCode}
+                                                       className="form-control" id="code" placeholder="Enter a team's code"/>
+                                            </div>
+                                        </form>
+                                        <div className="form-group">
+                                            <div className="col-sm-offset-2 col-sm-10">
+                                                <button className="btn btn-default" onClick={this.state.handleJoinTeam}>Submit
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     :
                     <div style={{marginTop: "100px"}}>
-                        <div className="panel panel-default">
-                            <div className="panel-body">
-                                <h2>Horizontal form</h2>
-                                <form className="form-horizontal">
-                                    <div className="form-group">
-                                        <label className="control-label col-sm-2">Name:</label>
-                                        <div className="col-sm-10">
-                                            <input onChange={this.handleInputChangeName} value={this.state.inputValueName}  className="form-control" id="name" placeholder="Enter your name"/>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="control-label col-sm-2">Email:</label>
-                                        <div className="col-sm-10">
-                                            <input onChange={this.handleInputChangeEmail} value={this.state.inputValueEmail} type="email" className="form-control" id="email" placeholder="Enter email" name="email"/>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="control-label col-sm-2">Password:</label>
-                                        <div className="col-sm-10">
-                                            <input onChange={this.handleInputChangePwd} value={this.state.inputValuePwd} type="password" className="form-control" id="pwd" placeholder="Enter password" name="pwd"/>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <div className="col-sm-offset-2 col-sm-10">
-                                            <button className="btn btn-default" onClick={this.handleButtonClick}>Submit</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div className="panel-footer">
-                                <span id="go_to_login"><a href="">Log In</a></span>
-                                <span> or </span>
-                                <span id="reset_pwd_login"> <a href="">Reset Password</a></span>
-                            </div>
-                        </div>
+                        <RegisterForm
+                            handleInputChangeName = {this.handleInputChangeName}
+                            inputValueName = {this.state.inputValueName}
+                            handleInputChangeEmail = {this.handleInputChangeEmail}
+                            inputValueEmail = {this.state.inputValueEmail}
+                            handleInputChangePwd = {this.handleInputChangePwd}
+                            inputValuePwd = {this.state.inputValuePwd}
+                            handleButtonClick = {this.handleButtonClick}
+                            handleButtonClickLogin = {this.handleButtonClickLogin}
+                            changeForm = {this.changeForm}
+                            loginForm = {this.state.loginForm}
+                        />
                     </div>
                 }
 
