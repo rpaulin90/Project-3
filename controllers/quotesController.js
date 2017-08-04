@@ -94,6 +94,48 @@ module.exports = {
                 res.send(doc);
             }
         });
+    },
+
+    getCalendarInfo: function(req,res) {
+
+        User.find({ "uid": req.body.uid }).populate("managedTeams").populate("notManagedTeams").exec(function(err, doc) {
+            if (err) {
+
+                throw err
+            }
+            else {
+
+                Team.find({ "_id": req.body.teamId }, function(error, doc2) {
+                    if (error) {
+
+                        throw error
+                    }
+                    else {
+
+                        res.send([doc,doc2]);
+
+                    }
+
+
+                });
+
+            }
+        });
+    },
+
+    addEvent: function(req,res) {
+
+        Team.findOneAndUpdate({"_id": req.body.teamId}, { $push: { "calendarGames": req.body.calendarEvent } }, { new: true }, function(error, doc) {
+            // Send any errors to the browser
+            if (error) {
+                res.send(error);
+            }
+            // Or send the doc to the browser
+            else {
+                res.send(doc);
+            }
+        });
+
     }
 
 };

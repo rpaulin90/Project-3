@@ -17,7 +17,13 @@ const API = {
     },
     joinTeam: function(uid,code) {
         return axios.post("/api/joinTeam", { uid,code });
-    }
+    },
+    getCalendarInfo: function(uid, teamId) {
+        return axios.post("/api/getCalendarInfo", { uid, teamId });
+    },
+    addEvent: function(teamId, calendarEvent) {
+        return axios.post("/api/addEvent", { teamId, calendarEvent });
+    },
     // Deletes a quote from the db
     // deleteQuote: function(id) {
     //     return axios.delete(`/api/quotes/${id}`);

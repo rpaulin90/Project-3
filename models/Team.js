@@ -13,7 +13,8 @@ var TeamSchema = new Schema({
     // author: just a string
     name: {
         type: String
-    }
+    },
+    calendarGames: []
 });
 
 // NOTE: the team's id is stored automatically

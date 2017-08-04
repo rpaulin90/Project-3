@@ -282,7 +282,7 @@ class Login extends Component {
                                         </form>
                                         <div className="form-group">
                                             <div className="col-sm-offset-2 col-sm-10">
-                                                <button className="btn btn-default" onClick={this.state.handleJoinTeam}>Submit
+                                                <button className="btn btn-default" onClick={this.handleJoinTeam}>Submit
                                                 </button>
                                             </div>
                                         </div>
