@@ -9,6 +9,8 @@ var userSchema = new Schema({
     name: String,
     email: String,
     uid: String,
+    confirmed: Boolean,
+    date: String,
     managedTeams: [{
         type: Schema.Types.ObjectId,
         ref: "Team"

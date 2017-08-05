@@ -24,16 +24,13 @@ const API = {
     addEvent: function(teamId, calendarEvent) {
         return axios.post("/api/addEvent", { teamId, calendarEvent });
     },
-    // Deletes a quote from the db
-    // deleteQuote: function(id) {
-    //     return axios.delete(`/api/quotes/${id}`);
-    // },
-    // Toggles a quote's favorite property in the db
-    // favoriteQuote: function(quote) {
-    //     quote.favorited = !quote.favorited;
-    //     const { _id, favorited } = quote;
-    //     return axios.patch(`/api/quotes/${_id}`, { favorited });
+    addParticipant: function(teamId, uid,id, userInfo, nextEvent) {
+        return axios.post("/api/addParticipant", { teamId, uid, id, userInfo, nextEvent });
+    }
+    // deleteParticipant: function(teamId, uid,id, name) {
+    //     return axios.post("/api/deleteParticipant", { teamId, uid, id, name });
     // }
+
 };
 
 export default API;

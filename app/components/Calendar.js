@@ -24,6 +24,7 @@ class Calendar extends Component {
             isOpen: false,
             user: null, // <-- add this line
             inputValueEvent: "",
+            inputValueTextarea: "",
             teamId: "",
             currentUid: "",
             newEvent: {},
@@ -31,10 +32,11 @@ class Calendar extends Component {
 
         };
 
-        this.onSelectSlot = this.onSelectSlot.bind(this);
+
         this.toggleModal = this.toggleModal.bind(this);
         this.onlyToggle = this.onlyToggle.bind(this);
         this.handleInputChangeEvent = this.handleInputChangeEvent.bind(this);
+        this.handleInputChangeTextarea = this.handleInputChangeTextarea.bind(this);
         this.handleCreateEvent = this.handleCreateEvent.bind(this);
 
     }
@@ -134,21 +136,6 @@ class Calendar extends Component {
         this.fireBaseListener && this.fireBaseListener();
     }
 
-    onSelectSlot(slotInfo) {
-
-
-        let gamesArray = this.state.games;
-        gamesArray.push({
-            'title': 'A game',
-            'allDay': false,
-            'start':'new Date(' + new Date(slotInfo.start) +  ')',
-            'end': new Date(slotInfo.end)
-        });
-        this.setState({games: gamesArray});
-        console.log("start: " + slotInfo.start + ", end: " + slotInfo.end);
-
-
-    }
 
     toggleModal(slotInfo) {
         console.log("slotInfo: " + slotInfo.start);
@@ -169,24 +156,23 @@ class Calendar extends Component {
         this.setState({ inputValueEvent: event.target.value });
     }
 
+    handleInputChangeTextarea(event) {
+        this.setState({ inputValueTextarea: event.target.value });
+    }
+
     handleCreateEvent(event){
 
         event.preventDefault();
 
-        // let gamesArray = this.state.games;
-        // gamesArray.push({
-        //     'title': this.state.inputValueEvent,
-        //     'allDay': false,
-        //     'start':this.state.newEvent.start,
-        //     'end': this.state.newEvent.end
-        // });
-
         let that = this;
         let newEvent = {
+            'id': parseInt(new Date().valueOf()),
             'title': this.state.inputValueEvent,
             'allDay': false,
             'start':that.state.newEvent.start,
-            'end':that.state.newEvent.end
+            'end':that.state.newEvent.end,
+            'notes': this.state.inputValueTextarea,
+            'participants': []
         };
         API.addEvent(this.state.teamId, newEvent).then((res) => {
 
@@ -206,7 +192,7 @@ class Calendar extends Component {
 
             console.log(res);
 
-            this.setState({games: gamesArray, inputValueEvent: "", isOpen: !this.state.isOpen, newEvent:{}});
+            this.setState({games: gamesArray, inputValueEvent: "",inputValueTextarea: "", isOpen: !this.state.isOpen, newEvent:{}});
             //this.onlyToggle();
 
         });
@@ -224,19 +210,20 @@ class Calendar extends Component {
                                    onClose={this.toggleModal}>
                         <form className="form-horizontal">
                             <fieldset>
-                                <legend>Legend</legend>
+                                <legend>Make an event</legend>
                                 <div className="form-group">
                                     <label className="col-lg-2 control-label">Event Title</label>
                                     <div className="col-lg-10">
                                         <input onChange={this.handleInputChangeEvent} value={this.state.inputValueEvent} type="text" className="form-control" id="inputEvent" placeholder="Enter event title"/>
                                     </div>
                                 </div>
-                                {/*<div className="form-group">*/}
-                                    {/*<label className="col-lg-2 control-label">Password</label>*/}
-                                    {/*<div className="col-lg-10">*/}
-                                        {/*<input type="password" className="form-control" id="inputPassword" placeholder="Password"/>*/}
-                                    {/*</div>*/}
-                                {/*</div>*/}
+                                <div className="form-group">
+                                    <label className="col-lg-2 control-label">Additional notes</label>
+                                    <div className="col-lg-10">
+                                        <textarea onChange={this.handleInputChangeTextarea} value={this.state.inputValueTextarea} className="form-control" rows="3" id="textArea"></textarea>
+                                        <span className="help-block">Enter any additional notes or comments you want your team to see.</span>
+                                    </div>
+                                </div>
                                 <div className="form-group">
                                     <div className="col-lg-10 col-lg-offset-2">
                                         <button type="submit" className="btn btn-primary" onClick={this.handleCreateEvent}>Submit</button>

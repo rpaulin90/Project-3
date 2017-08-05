@@ -51,6 +51,7 @@ class Login extends Component {
                 let that = this;
                 const uid = auth.currentUser.uid;
                 API.getUserInfo(uid).then((res) => {
+                    console.log(res);
                     this.setState({user, currentUid: auth.currentUser.uid, managedTeams:res.data[0].managedTeams, notManagedTeams: res.data[0].notManagedTeams});
                 });
 

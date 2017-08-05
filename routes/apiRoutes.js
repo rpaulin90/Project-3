@@ -10,6 +10,8 @@ router.post("/newUser", quotesController.createUser);
 router.post("/newTeam", quotesController.createTeam);
 router.post("/joinTeam", quotesController.joinTeam);
 router.post("/addEvent", quotesController.addEvent);
+router.post("/addParticipant", quotesController.addParticipant);
+//router.post("/deleteParticipant", quotesController.deleteParticipant);
 
 
 module.exports = router;

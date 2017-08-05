@@ -12,6 +12,8 @@ module.exports = {
             name: req.body.name,
             email: req.body.email,
             uid: req.body.uid,
+            confirmed: false,
+            date: "not set"
         });
 
         newUser.save(function(error, doc) {
@@ -136,6 +138,55 @@ module.exports = {
             }
         });
 
+    },
+
+    addParticipant: function(req,res) {
+
+
+        User.findOneAndUpdate({ "uid": req.body.uid },{$set: {"confirmed": true, date: req.body.nextEvent.start}}, function(err,doc1){
+            if (err) {
+                console.log(err);
+                throw err
+            }
+            else {
+
+                // how can i push information into a nested array to an object with a given id?
+
+                Team.findOneAndUpdate({"_id": req.body.teamId}, { $push: { "calendarGames.0.participants": req.body.userInfo }  }, { new: true }, function(error, doc2) {
+                    // Send any errors to the browser
+                    if (error) {
+                        res.send(error);
+                    }
+                    // Or send the doc to the browser
+                    else {
+                        res.send([doc1,doc2]);
+                    }
+                });
+
+            }
+        });
+
+
+
+
     }
+
+    // deleteParticipant: function(req,res) {
+    //
+    //
+    //     Team.findOneAndUpdate({"_id": req.body.teamId}, { $push: { "calendarGames.0.participants": req.body.name }, $set: {"calendarGames.0.confirmed": true}  }, { new: true }, function(error, doc) {
+    //         // Send any errors to the browser
+    //         if (error) {
+    //             res.send(error);
+    //         }
+    //         // Or send the doc to the browser
+    //         else {
+    //             res.send(doc);
+    //         }
+    //     });
+    //
+    //
+    //
+    // }
 
 };
