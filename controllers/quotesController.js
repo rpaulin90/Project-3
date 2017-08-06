@@ -32,7 +32,7 @@ module.exports = {
 
     createTeam: function(req,res) {
 
-        var newTeam = new Team({name:req.body.team});
+        var newTeam = new Team({name:req.body.team,nextEvent: {status: "no events yet"}});
 
         newTeam.save(function(err, doc) {
             // Send an error to the browser if there's something wrong
@@ -127,7 +127,7 @@ module.exports = {
 
     addEvent: function(req,res) {
 
-        Team.findOneAndUpdate({"_id": req.body.teamId}, { $push: { "calendarGames": req.body.calendarEvent } }, { new: true }, function(error, doc) {
+        Team.findOneAndUpdate({"_id": req.body.teamId}, { $push: { "calendarGames": req.body.calendarEvent }, $set: { "nextEvent.0": req.body.calendarEvent } }, { new: true }, function(error, doc) {
             // Send any errors to the browser
             if (error) {
                 res.send(error);
@@ -152,7 +152,7 @@ module.exports = {
 
                 // how can i push information into a nested array to an object with a given id?
 
-                Team.findOneAndUpdate({"_id": req.body.teamId}, { $push: { "calendarGames.0.participants": req.body.userInfo }  }, { new: true }, function(error, doc2) {
+                Team.findOneAndUpdate({"_id": req.body.teamId}, { $push: { "nextEvent.0.participants": req.body.userInfo }  }, { new: true }, function(error, doc2) {
                     // Send any errors to the browser
                     if (error) {
                         res.send(error);
@@ -166,8 +166,39 @@ module.exports = {
             }
         });
 
+    },
 
+    updateNextEvent: function(req,res) {
 
+        Team.findOneAndUpdate({"_id": req.body.teamId}, { $set: { "nextEvent.0": req.body.nextEvent }  }, { new: true }, function(error, doc) {
+            // Send any errors to the browser
+            if (error) {
+                res.send(error);
+            }
+            // Or send the doc to the browser
+            else {
+                console.log("im heeere");
+                res.send(doc);
+            }
+        });
+
+    },
+
+    saveLineup: function(req,res) {
+
+        Team.findOneAndUpdate({"_id": req.body.teamId}, { $set: { "nextEvent.0.lineup": req.body.deltas }  }, { new: true }, function(error, doc) {
+            // Send any errors to the browser
+            if (error) {
+                res.send(error);
+            }
+            // Or send the doc to the browser
+            else {
+                console.log("req.body.deltas");
+                console.log(req.body.deltas);
+                console.log("updated lineups");
+                res.send(doc);
+            }
+        });
 
     }
 

@@ -172,7 +172,12 @@ class Calendar extends Component {
             'start':that.state.newEvent.start,
             'end':that.state.newEvent.end,
             'notes': this.state.inputValueTextarea,
-            'participants': []
+            'participants': [],
+            'lineup':[{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            }]
         };
         API.addEvent(this.state.teamId, newEvent).then((res) => {
 

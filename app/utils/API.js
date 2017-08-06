@@ -26,6 +26,12 @@ const API = {
     },
     addParticipant: function(teamId, uid,id, userInfo, nextEvent) {
         return axios.post("/api/addParticipant", { teamId, uid, id, userInfo, nextEvent });
+    },
+    updateNextEvent: function(nextEvent,teamId) {
+        return axios.post("/api/updateNextEvent", { nextEvent, teamId });
+    },
+    saveLineup: function(teamId, deltas) {
+        return axios.post("/api/saveLineup", { teamId, deltas });
     }
     // deleteParticipant: function(teamId, uid,id, name) {
     //     return axios.post("/api/deleteParticipant", { teamId, uid, id, name });

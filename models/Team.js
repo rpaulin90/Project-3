@@ -14,6 +14,7 @@ var TeamSchema = new Schema({
     name: {
         type: String
     },
+    nextEvent: [],
     calendarGames: []
 });
 

@@ -11,6 +11,8 @@ router.post("/newTeam", quotesController.createTeam);
 router.post("/joinTeam", quotesController.joinTeam);
 router.post("/addEvent", quotesController.addEvent);
 router.post("/addParticipant", quotesController.addParticipant);
+router.post("/updateNextEvent", quotesController.updateNextEvent);
+router.post("/saveLineup", quotesController.saveLineup);
 //router.post("/deleteParticipant", quotesController.deleteParticipant);
 
 
