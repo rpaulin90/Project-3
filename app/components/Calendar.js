@@ -177,6 +177,24 @@ class Calendar extends Component {
                 x: 0, y: 0
             },{
                 x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
             }]
         };
         API.addEvent(this.state.teamId, newEvent).then((res) => {
