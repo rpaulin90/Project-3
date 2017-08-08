@@ -186,7 +186,7 @@ module.exports = {
 
     saveLineup: function(req,res) {
 
-        Team.findOneAndUpdate({"_id": req.body.teamId}, { $set: { "nextEvent.0.lineup": req.body.deltas }  }, { new: true }, function(error, doc) {
+        Team.findOneAndUpdate({"_id": req.body.teamId}, { $set: { "nextEvent.0.lineup": req.body.deltas, "nextEvent.0.lineupNames": req.body.names }  }, { new: true }, function(error, doc) {
             // Send any errors to the browser
             if (error) {
                 res.send(error);

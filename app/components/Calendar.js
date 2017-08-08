@@ -28,7 +28,8 @@ class Calendar extends Component {
             teamId: "",
             currentUid: "",
             newEvent: {},
-            manager: false
+            manager: false,
+            teamInfo: {}
 
         };
 
@@ -70,7 +71,8 @@ class Calendar extends Component {
                             currentUid: auth.currentUser.uid,
                             teamId: this.props.params.id,
                             manager: false,
-                            games: gamesArrayOnMount //need to put res.data...with games from database
+                            games: gamesArrayOnMount, //need to put res.data...with games from database
+                            teamInfo: res.data[1][0]
                         });
 
                     }else{
@@ -96,7 +98,8 @@ class Calendar extends Component {
                                     currentUid: auth.currentUser.uid,
                                     teamId: this.props.params.id,
                                     manager: true,
-                                    games: gamesArrayOnMount //need to put res.data...with games from database
+                                    games: gamesArrayOnMount, //need to put res.data...with games from database
+                                    teamInfo: res.data[1][0]
                                 });
                                 return
 
@@ -119,7 +122,8 @@ class Calendar extends Component {
                                     currentUid: auth.currentUser.uid,
                                     teamId: this.props.params.id,
                                     manager: false,
-                                    games: gamesArrayOnMount //need to put res.data...with games from database
+                                    games: gamesArrayOnMount, //need to put res.data...with games from database
+                                    teamInfo: res.data[1][0]
                                 });
                             }
                         }
@@ -165,6 +169,46 @@ class Calendar extends Component {
         event.preventDefault();
 
         let that = this;
+
+        let savedLineup;
+        let lineupNames = [];
+
+        if(this.state.teamInfo.nextEvent[0].lineup){
+            savedLineup = this.state.teamInfo.nextEvent[0].lineup;
+            lineupNames = this.state.teamInfo.nextEvent[0].lineupNames;
+        }else{
+
+            savedLineup = [{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            },{
+                x: 0, y: 0
+            }];
+
+            for(let y = 0; y < 11; y++){
+                lineupNames.push("click to edit")
+            }
+
+        }
+
+
         let newEvent = {
             'id': parseInt(new Date().valueOf()),
             'title': this.state.inputValueEvent,
@@ -173,29 +217,8 @@ class Calendar extends Component {
             'end':that.state.newEvent.end,
             'notes': this.state.inputValueTextarea,
             'participants': [],
-            'lineup':[{
-                x: 0, y: 0
-            },{
-                x: 0, y: 0
-            },{
-                x: 0, y: 0
-            },{
-                x: 0, y: 0
-            },{
-                x: 0, y: 0
-            },{
-                x: 0, y: 0
-            },{
-                x: 0, y: 0
-            },{
-                x: 0, y: 0
-            },{
-                x: 0, y: 0
-            },{
-                x: 0, y: 0
-            },{
-                x: 0, y: 0
-            }]
+            'lineup': savedLineup,
+            'lineupNames': lineupNames
         };
         API.addEvent(this.state.teamId, newEvent).then((res) => {
 

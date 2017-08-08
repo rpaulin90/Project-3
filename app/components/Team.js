@@ -8,6 +8,7 @@ import { Link, withRouter } from "react-router";
 import moment from 'moment';
 var Draggable = require("react-draggable");
 import Field from "./common/Field";
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 
 class Team extends Component {
@@ -85,7 +86,19 @@ class Team extends Component {
                 x: 0, y: 0
             },{
                 x: 0, y: 0
-            }]
+            }],
+            name1:"click to edit",
+            name2:"click to edit",
+            name3:"click to edit",
+            name4:"click to edit",
+            name5:"click to edit",
+            name6:"click to edit",
+            name7:"click to edit",
+            name8:"click to edit",
+            name9:"click to edit",
+            name90:"click to edit",
+            name91:"click to edit",
+            copied:false
 
         };
 
@@ -109,6 +122,17 @@ class Team extends Component {
         this.adjustYPos = this.adjustYPos.bind(this);
         this.onControlledDrag = this.onControlledDrag.bind(this);
         this.onControlledDragStop = this.onControlledDragStop.bind(this);
+        this.handleChange1 = this.handleChange1.bind(this);
+        this.handleChange2 = this.handleChange2.bind(this);
+        this.handleChange3 = this.handleChange3.bind(this);
+        this.handleChange4 = this.handleChange4.bind(this);
+        this.handleChange5 = this.handleChange5.bind(this);
+        this.handleChange6 = this.handleChange6.bind(this);
+        this.handleChange7 = this.handleChange7.bind(this);
+        this.handleChange8 = this.handleChange8.bind(this);
+        this.handleChange9 = this.handleChange9.bind(this);
+        this.handleChange90 = this.handleChange90.bind(this);
+        this.handleChange91 = this.handleChange91.bind(this);
         //this.handleUnConfirm = this.handleUnConfirm.bind(this);
 
     }
@@ -129,6 +153,18 @@ class Team extends Component {
                     var attending = false;
                     var participantsArray;
                     var deltasArray = this.state.deltas;
+                    var name1 = this.state.name1;
+                    var name2 = this.state.name2;
+                    var name3 = this.state.name3;
+                    var name4 = this.state.name4;
+                    var name5 = this.state.name5;
+                    var name6 = this.state.name6;
+                    var name7 = this.state.name7;
+                    var name8 = this.state.name8;
+                    var name9 = this.state.name9;
+                    var name90 = this.state.name90;
+                    var name91 = this.state.name91;
+
                     if(res.data[1][0].calendarGames.length === 0){
                         nextEvent = false;
 
@@ -144,6 +180,18 @@ class Team extends Component {
                         participantsArray = res.data[1][0].nextEvent[0].participants;
 
                         deltasArray = res.data[1][0].nextEvent[0].lineup;
+
+                        name1 = res.data[1][0].nextEvent[0].lineupNames[0];
+                        name2 = res.data[1][0].nextEvent[0].lineupNames[1];
+                        name3 = res.data[1][0].nextEvent[0].lineupNames[2];
+                        name4 = res.data[1][0].nextEvent[0].lineupNames[3];
+                        name5 = res.data[1][0].nextEvent[0].lineupNames[4];
+                        name6 = res.data[1][0].nextEvent[0].lineupNames[5];
+                        name7 = res.data[1][0].nextEvent[0].lineupNames[6];
+                        name8 = res.data[1][0].nextEvent[0].lineupNames[7];
+                        name9 = res.data[1][0].nextEvent[0].lineupNames[8];
+                        name90 = res.data[1][0].nextEvent[0].lineupNames[9];
+                        name91 = res.data[1][0].nextEvent[0].lineupNames[10];
 
 
                         var sortedArray = res.data[1][0].calendarGames;
@@ -186,7 +234,18 @@ class Team extends Component {
                             userInfo: res.data[0][0],
                             confirmed: attending,
                             participants: participantsArray,
-                            deltas: deltasArray
+                            deltas: deltasArray,
+                            name1: name1,
+                            name2: name2,
+                            name3: name3,
+                            name4: name4,
+                            name5: name5,
+                            name6: name6,
+                            name7: name7,
+                            name8: name8,
+                            name9: name9,
+                            name90: name90,
+                            name91: name91
                         });
 
                     } else{
@@ -206,7 +265,18 @@ class Team extends Component {
                                     userInfo: res.data[0][0],
                                     confirmed: attending,
                                     participants: participantsArray,
-                                    deltas: deltasArray
+                                    deltas: deltasArray,
+                                    name1: name1,
+                                    name2: name2,
+                                    name3: name3,
+                                    name4: name4,
+                                    name5: name5,
+                                    name6: name6,
+                                    name7: name7,
+                                    name8: name8,
+                                    name9: name9,
+                                    name90: name90,
+                                    name91: name91
                                 });
                                 return
 
@@ -223,7 +293,18 @@ class Team extends Component {
                                     userInfo: res.data[0][0],
                                     confirmed: attending,
                                     participants: participantsArray,
-                                    deltas: deltasArray
+                                    deltas: deltasArray,
+                                    name1: name1,
+                                    name2: name2,
+                                    name3: name3,
+                                    name4: name4,
+                                    name5: name5,
+                                    name6: name6,
+                                    name7: name7,
+                                    name8: name8,
+                                    name9: name9,
+                                    name90: name90,
+                                    name91: name91
                                 });
                             }
                         }
@@ -330,8 +411,10 @@ class Team extends Component {
                 }
             ];
 
+            let newNames = [this.state.name1,this.state.name2,this.state.name3,this.state.name4,this.state.name5,this.state.name6,this.state.name7,this.state.name8,this.state.name9,this.state.name90,this.state.name91,];
 
-            API.saveLineup(this.state.teamId, newDeltasArray).then((res) => {
+
+            API.saveLineup(this.state.teamId, newDeltasArray, newNames).then((res) => {
 
                 console.log("saved lineup");
 
@@ -511,6 +594,40 @@ class Team extends Component {
         this.onStop();
     }
 
+    handleChange1(event) {
+        this.setState({name1: event.target.value});
+    }
+    handleChange2(event) {
+        this.setState({name2: event.target.value});
+    }
+    handleChange3(event) {
+        this.setState({name3: event.target.value});
+    }
+    handleChange4(event) {
+        this.setState({name4: event.target.value});
+    }
+    handleChange5(event) {
+        this.setState({name5: event.target.value});
+    }
+    handleChange6(event) {
+        this.setState({name6: event.target.value});
+    }
+    handleChange7(event) {
+        this.setState({name7: event.target.value});
+    }
+    handleChange8(event) {
+        this.setState({name8: event.target.value});
+    }
+    handleChange9(event) {
+        this.setState({name9: event.target.value});
+    }
+    handleChange90(event) {
+        this.setState({name90: event.target.value});
+    }
+    handleChange91(event) {
+        this.setState({name91: event.target.value});
+    }
+
 
     render() {
         const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
@@ -668,6 +785,16 @@ class Team extends Component {
                 marginLeft: 5,
                 color: "red",
                 float: "right"
+            },
+            inputStyle: {
+                width: "70px",
+                height: "20px",
+                fontSize: "small",
+                color: "white",
+                textAlign: "center",
+                backgroundColor: "transparent",
+                border: "none",
+                boxShadow: "none"
             }
         };
         return (
@@ -709,7 +836,14 @@ class Team extends Component {
                         <div className="row">
                             <div className="col-xs-6">
                                 <div className="panel panel-default">
-                                    <div className="panel-heading">{this.state.teamInfo.name}</div>
+                                    <div className="panel-heading">
+                                        {this.state.teamInfo.name}
+                                        <p> - invite your friends, share the team's code: {this.state.teamId}</p>
+                                        <CopyToClipboard text={this.state.teamId}
+                                                         onCopy={() => this.setState({copied: true})}>
+                                            <button className="btn btn-default">Copy to clipboard</button>
+                                        </CopyToClipboard>
+                                    </div>
                                     {this.state.nextEvent ?
 
                                         <div className="panel-body">
@@ -770,37 +904,70 @@ class Team extends Component {
                         <div style={{height: "100%",width: "100%", position: 'relative', overflowX: 'scroll', padding: '0px', float:"left"}}>
                             <div style={{height: "530px",width: "700px", padding: '0px', backgroundImage: 'url(' + fieldUrl + ')', borderRadius: "3px"}}>
                                 <Draggable onDrag={this.handleDrag1} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box1} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box1}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange1} value={this.state.name1} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                                 <Draggable onDrag={this.handleDrag2} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box2} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box2}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange2} value={this.state.name2} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                                 <Draggable onDrag={this.handleDrag3} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box3} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box3}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange3} value={this.state.name3} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                                 <Draggable onDrag={this.handleDrag4} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box4} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box4}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange4} value={this.state.name4} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                                 <Draggable onDrag={this.handleDrag5} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box5} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box5}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange5} value={this.state.name5} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                                 <Draggable onDrag={this.handleDrag6} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box6} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box6}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange6} value={this.state.name6} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                                 <Draggable onDrag={this.handleDrag7} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box7} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box7}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange7} value={this.state.name7} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                                 <Draggable onDrag={this.handleDrag8} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box8} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box8}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange8} value={this.state.name8} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                                 <Draggable onDrag={this.handleDrag9} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box9} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box9}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange9} value={this.state.name9} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                                 <Draggable onDrag={this.handleDrag90} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box10} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box10}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange90} value={this.state.name90} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                                 <Draggable onDrag={this.handleDrag91} bounds="parent" {...dragHandlers}>
-                                    <img style={styles.box11} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <div style={styles.box11}>
+                                        <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                        <input onChange={this.handleChange91} value={this.state.name91} style={styles.inputStyle} type="text" />
+                                    </div>
                                 </Draggable>
                             </div>
                         </div>
