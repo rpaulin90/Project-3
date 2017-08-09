@@ -9,6 +9,7 @@ import moment from 'moment';
 var Draggable = require("react-draggable");
 import Field from "./common/Field";
 import CopyToClipboard from 'react-copy-to-clipboard';
+import ModalTeam from "./common/ModalTeam";
 
 
 class Team extends Component {
@@ -16,6 +17,8 @@ class Team extends Component {
     constructor() {
         super();
         this.state = {
+            loading: true,
+            isOpen: false,
             teamId: "",
             currentUid: "",
             managedTeams: [],
@@ -133,6 +136,8 @@ class Team extends Component {
         this.handleChange9 = this.handleChange9.bind(this);
         this.handleChange90 = this.handleChange90.bind(this);
         this.handleChange91 = this.handleChange91.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+        this.renderRoster = this.renderRoster.bind(this);
         //this.handleUnConfirm = this.handleUnConfirm.bind(this);
 
     }
@@ -245,7 +250,8 @@ class Team extends Component {
                             name8: name8,
                             name9: name9,
                             name90: name90,
-                            name91: name91
+                            name91: name91,
+                            loading: false
                         });
 
                     } else{
@@ -276,7 +282,8 @@ class Team extends Component {
                                     name8: name8,
                                     name9: name9,
                                     name90: name90,
-                                    name91: name91
+                                    name91: name91,
+                                    loading: false
                                 });
                                 return
 
@@ -304,7 +311,8 @@ class Team extends Component {
                                     name8: name8,
                                     name9: name9,
                                     name90: name90,
-                                    name91: name91
+                                    name91: name91,
+                                    loading: false
                                 });
                             }
                         }
@@ -627,7 +635,42 @@ class Team extends Component {
     handleChange91(event) {
         this.setState({name91: event.target.value});
     }
+    toggleModal() {
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
+    }
+    renderRoster() {
 
+        console.log(this.state);
+
+        return this.state.teamInfo.members.map((player,i) => (
+
+            <li key={i} className="list-group-item">
+
+                <ul className="list-group" style={{maxHeight: "500px", overflowY: "scroll"}}>
+                    <li className="list-group-item">
+                        <div className="row">
+                            <div className="col-xs-6">
+                                <img src="http://via.placeholder.com/120x120" alt="placeholder"/>
+                            </div>
+                            <div className="col-xs-6">
+                                <div className="col-xs-12">
+                                    {player.name}
+                                </div>
+                                <div className="col-xs-12">
+                                    {player.email}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
+        ))
+
+
+    }
 
     render() {
         const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
@@ -646,7 +689,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta1.y,
                 left: deltasCss.delta1.x
             },
@@ -659,7 +702,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta2.y,
                 left: deltasCss.delta2.x
             },
@@ -672,7 +715,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta3.y,
                 left: deltasCss.delta3.x
             },
@@ -685,7 +728,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta4.y,
                 left: deltasCss.delta4.x
             },
@@ -698,7 +741,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta5.y,
                 left: deltasCss.delta5.x
             },
@@ -711,7 +754,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta6.y,
                 left: deltasCss.delta6.x
             },
@@ -724,7 +767,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta7.y,
                 left: deltasCss.delta7.x
             },
@@ -737,7 +780,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta8.y,
                 left: deltasCss.delta8.x
             },
@@ -750,7 +793,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta9.y,
                 left: deltasCss.delta9.x
             },
@@ -763,7 +806,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta90.y,
                 left: deltasCss.delta90.x
             },
@@ -776,7 +819,7 @@ class Team extends Component {
                 //margin: "10px",
                 padding: "0px",
                 float: "left",
-                position: "absolute",
+                position: "relative",
                 top: deltasCss.delta91.y,
                 left: deltasCss.delta91.x
             },
@@ -792,15 +835,37 @@ class Team extends Component {
                 fontSize: "small",
                 color: "white",
                 textAlign: "center",
-                backgroundColor: "transparent",
+                backgroundColor: "black",
+                borderRadius: "5px",
                 border: "none",
                 boxShadow: "none"
             }
         };
         return (
             <div className="container-fluid">
-                {this.state.manager ?
+
+                {this.state.loading ?
+
                     <div>
+                        loading...
+                    </div>
+
+                    :
+
+
+                    this.state.manager ?
+                    <div>
+                        <ModalTeam show={this.state.isOpen}
+                                   onClose={this.toggleModal}>
+                            <ul className="list-group">
+                                {this.renderRoster()}
+                            </ul>
+                            <div className="form-group">
+                                <div>
+                                    <button type="cancel" className="btn btn-default" onClick={this.toggleModal}>Cancel</button>
+                                </div>
+                            </div>
+                        </ModalTeam>
                         <nav style={{marginBottom: "20px"}} className="navbar navbar-inverse">
                             <div className="container-fluid">
                                 <div className="navbar-header">
@@ -817,8 +882,8 @@ class Team extends Component {
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav">
-                                    <li className={location.pathname === "/" && "active"}>
-                                        <Link to="/">Roster</Link>
+                                    <li>
+                                        <a onClick={this.toggleModal}>Roster</a>
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav">
@@ -834,7 +899,7 @@ class Team extends Component {
                             </div>
                         </nav>
                         <div className="row">
-                            <div className="col-xs-6">
+                            <div className="col-xs-12 col-sm-6">
                                 <div className="panel panel-default">
                                     <div className="panel-heading">
                                         {this.state.teamInfo.name}
@@ -873,7 +938,7 @@ class Team extends Component {
                                     }
                                 </div>
                             </div>
-                            <div className="col-xs-6">
+                            <div className="col-xs-12 col-sm-6">
                                 <div className="panel panel-default">
                                     <div className="panel-heading">Confirmed to go</div>
                                     {this.state.nextEvent ?
@@ -899,9 +964,10 @@ class Team extends Component {
                                 </div>
                             </div>
                         </div>
-                        <button className="btn btn-success" onClick={this.handleConfirmLineup}>Save Lineup
-                        </button>
-                        <div style={{height: "100%",width: "100%", position: 'relative', overflowX: 'scroll', padding: '0px', float:"left"}}>
+
+                        <div style={{height: "530px",width: "700px", position: 'relative', overflowX: 'scroll', padding: '0px', margin: "auto"}}>
+                            <button className="btn btn-success" onClick={this.handleConfirmLineup}>Save Lineup
+                            </button>
                             <div style={{height: "530px",width: "700px", padding: '0px', backgroundImage: 'url(' + fieldUrl + ')', borderRadius: "3px"}}>
                                 <Draggable onDrag={this.handleDrag1} bounds="parent" {...dragHandlers}>
                                     <div style={styles.box1}>
@@ -973,7 +1039,8 @@ class Team extends Component {
                         </div>
                     </div>
                     :
-                    <div className="container">
+
+                    <div>
                         <nav style={{marginBottom: "20px"}} className="navbar navbar-inverse">
                             <div className="container-fluid">
                                 <div className="navbar-header">
@@ -990,8 +1057,8 @@ class Team extends Component {
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav">
-                                    <li className={location.pathname === "/" && "active"}>
-                                        <Link to="/">Roster</Link>
+                                    <li>
+                                        <a onClick={this.toggleModal}>Roster</a>
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav">
@@ -1006,7 +1073,20 @@ class Team extends Component {
                                 </ul>
                             </div>
                         </nav>
-                        <div className="col-xs-6">
+                        <div>
+                            <ModalTeam show={this.state.isOpen}
+                                       onClose={this.toggleModal}>
+                                <ul className="list-group">
+                                    {this.renderRoster()}
+                                </ul>
+                                <div className="form-group">
+                                    <div className="col-lg-10 col-lg-offset-2">
+                                        <button type="cancel" className="btn btn-default" onClick={this.toggleModal}>Cancel</button>
+                                    </div>
+                                </div>
+                            </ModalTeam>
+                        </div>
+                        <div className="col-xs-12 col-sm-6">
                             <div className="panel panel-default">
                                 <div className="panel-heading">{this.state.teamInfo.name}</div>
                                 {this.state.nextEvent ?
@@ -1018,7 +1098,7 @@ class Team extends Component {
                                         <p>{moment(new Date(this.state.nextEvent.start)).format("dddd, MMMM Do YYYY, h:mm:ss a")}</p>
                                         <h6>Additional comments</h6>
                                         <p>{this.state.nextEvent.notes}</p>
-                                        <div className="col-sm-offset-2 col-sm-10">
+                                        <div>
                                             {this.state.confirmed ?
                                                 <p>You are attending this event</p>
                                                 :
@@ -1038,7 +1118,7 @@ class Team extends Component {
                                 }
                             </div>
                         </div>
-                        <div className="col-xs-6">
+                        <div className="col-xs-12 col-sm-6">
                             <div className="panel panel-default">
                                 <div className="panel-heading">Confirmed to go</div>
                                 {this.state.nextEvent ?
@@ -1064,25 +1144,60 @@ class Team extends Component {
                             </div>
                         </div>
 
-                        <div style={{height: "100%",width: "100%", position: 'relative', overflowX: 'scroll', padding: '0px', float:"left"}}>
+                        <div style={{height: "530px",width: "700px", position: 'relative', overflowX: 'scroll', padding: '0px', margin: "auto"}}>
                             <div style={{height: "530px",width: "700px", padding: '0px', backgroundImage: 'url(' + fieldUrl + ')', borderRadius: "3px"}}>
 
-                                <img style={styles.box1} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                {/*color: white;
+                                 text-align: center;
+                                 margin: 0;
+                                 background-color: black;
+                                 border-radius: 9px;*/}
 
-                                <img style={styles.box2} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
-                                <img style={styles.box3} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                <div style={styles.box1}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name1}</p>
+                                </div>
+                                <div style={styles.box2}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name2}</p>
+                                </div>
+                                <div style={styles.box3}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name3}</p>
+                                </div>
+                                <div style={styles.box4}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name4}</p>
+                                </div>
+                                <div style={styles.box5}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name5}</p>
+                                </div>
+                                <div style={styles.box6}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name6}</p>
+                                </div>
+                                <div style={styles.box7}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name7}</p>
+                                </div>
+                                <div style={styles.box8}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name8}</p>
+                                </div>
+                                <div style={styles.box9}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name9}</p>
+                                </div>
+                                <div style={styles.box10}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name90}</p>
+                                </div>
+                                <div style={styles.box11}>
+                                    <img style={{width:"70px", height:"70px"}} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
+                                    <p style={{color: "white", textAlign: "center", margin: 0, backgroundColor: "black", borderRadius: "5px"}}>{this.state.name91}</p>
+                                </div>
 
-                                <img style={styles.box4} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
-                                <img style={styles.box5} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
-
-                                <img style={styles.box6} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
-                                <img style={styles.box7} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
-
-                                <img style={styles.box8} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
-                                <img style={styles.box9} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
-
-                                <img style={styles.box10} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
-                                <img style={styles.box11} src={"https://cdn4.iconfinder.com/data/icons/football-4/100/jersey_3-512.png"} alt="a soccer player"/>
 
                             </div>
                         </div>

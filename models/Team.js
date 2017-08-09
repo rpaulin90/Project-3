@@ -15,7 +15,11 @@ var TeamSchema = new Schema({
         type: String
     },
     nextEvent: [],
-    calendarGames: []
+    calendarGames: [],
+    members: [{
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }]
 });
 
 // NOTE: the team's id is stored automatically

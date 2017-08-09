@@ -32,7 +32,7 @@ module.exports = {
 
     createTeam: function(req,res) {
 
-        var newTeam = new Team({name:req.body.team,nextEvent: {status: "no events yet"}});
+        var newTeam = new Team({name:req.body.team,nextEvent: {status: "no events yet"},members:req.body._id});
 
         newTeam.save(function(err, doc) {
             // Send an error to the browser if there's something wrong
@@ -60,7 +60,7 @@ module.exports = {
 
     joinTeam: function(req,res) {
 
-        Team.find({ "_id": req.body.code }, function(err, doc) {
+        Team.findOneAndUpdate({ "_id": req.body.code }, { $push: { "members": req.body._id }}, function(err, doc) {
             if (err) {
 
                 throw err
@@ -107,7 +107,7 @@ module.exports = {
             }
             else {
 
-                Team.find({ "_id": req.body.teamId }, function(error, doc2) {
+                Team.find({ "_id": req.body.teamId }).populate("members").exec(function(error, doc2) {
                     if (error) {
 
                         throw error

@@ -12,11 +12,11 @@ const API = {
     newUser: function(name,email,uid) {
         return axios.post("/api/newUser", { name,email,uid });
     },
-    newTeam: function(uid,team) {
-        return axios.post("/api/newTeam", { uid,team });
+    newTeam: function(uid,team,_id) {
+        return axios.post("/api/newTeam", { uid,team,_id });
     },
-    joinTeam: function(uid,code) {
-        return axios.post("/api/joinTeam", { uid,code });
+    joinTeam: function(uid,code, _id) {
+        return axios.post("/api/joinTeam", { uid,code, _id });
     },
     getCalendarInfo: function(uid, teamId) {
         return axios.post("/api/getCalendarInfo", { uid, teamId });

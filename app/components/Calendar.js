@@ -266,7 +266,9 @@ class Calendar extends Component {
                                 <div className="form-group">
                                     <label className="col-lg-2 control-label">Additional notes</label>
                                     <div className="col-lg-10">
-                                        <textarea onChange={this.handleInputChangeTextarea} value={this.state.inputValueTextarea} className="form-control" rows="3" id="textArea"></textarea>
+                                        <textarea onChange={this.handleInputChangeTextarea} value={this.state.inputValueTextarea} className="form-control" rows="3" id="textArea">
+
+                                        </textarea>
                                         <span className="help-block">Enter any additional notes or comments you want your team to see.</span>
                                     </div>
                                 </div>

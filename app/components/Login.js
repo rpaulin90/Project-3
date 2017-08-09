@@ -17,6 +17,7 @@ class Login extends Component {
     constructor() {
         super();
         this.state = {
+            userInfo: "",
             loginForm: "Register",
             inputValueName: "",
             inputValueEmail: "",
@@ -52,7 +53,7 @@ class Login extends Component {
                 const uid = auth.currentUser.uid;
                 API.getUserInfo(uid).then((res) => {
                     console.log(res);
-                    this.setState({user, currentUid: auth.currentUser.uid, managedTeams:res.data[0].managedTeams, notManagedTeams: res.data[0].notManagedTeams});
+                    this.setState({user, currentUid: auth.currentUser.uid, managedTeams:res.data[0].managedTeams, notManagedTeams: res.data[0].notManagedTeams, userInfo: res.data[0]});
                 });
 
             }
@@ -123,7 +124,7 @@ class Login extends Component {
         const team = this.state.inputValueTeam;
 
 
-        API.newTeam(this.state.currentUid, team).then(this.getTeams);
+        API.newTeam(this.state.currentUid, team,this. state.userInfo._id).then(this.getTeams);
         this.setState({ inputValueTeam: "" });
 
 
@@ -134,7 +135,7 @@ class Login extends Component {
         const code = this.state.inputValueCode;
 
 
-        API.joinTeam(this.state.currentUid, code).then(this.getTeams);
+        API.joinTeam(this.state.currentUid, code, this.state.userInfo).then(this.getTeams);
         this.setState({ inputValueCode: "" });
 
 
@@ -213,7 +214,7 @@ class Login extends Component {
     render() {
         return (
 
-            <div className="container">
+            <div className="container-fluid">
                 {this.state.user ?
 
                     <div className='wrapper'>
@@ -235,55 +236,57 @@ class Login extends Component {
                             </div>
                         </nav>
                         <div className="row">
-                            <div className="col-xs-4">
+                            <div className="col-xs-12 col-md-12">
                                 <div className="panel panel-default">
-                                    <div className="panel-body">
+                                    <div className="panel-heading">
                                         My Teams
                                     </div>
                                     <div>
-                                        <hr />
                                         {this.renderTeams()}
                                     </div>
                                     <div>
-                                        <hr />
                                         {this.renderNotManagedTeams()}
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-xs-4">
+                            <div className="col-xs-12 col-md-12">
                                 <div className="panel panel-default">
-                                    <div className="panel-body">
+                                    <div className="panel-heading">
                                         Create a Team
+                                    </div>
+                                    <div className="panel-body">
                                         <form>
-                                            <label className="control-label col-sm-2">Team Name:</label>
+
                                             <div className="col-sm-10">
                                                 <input onChange={this.handleInputChangeTeam} value={this.state.inputValueTeam}
                                                        className="form-control" id="name" placeholder="Enter new team's name"/>
                                             </div>
                                         </form>
                                         <div className="form-group">
-                                            <div className="col-sm-offset-2 col-sm-10">
-                                                <button className="btn btn-default" onClick={this.handleCreateTeam}>Submit
+                                            <div className="col-sm-10" style={{marginTop: "10px"}}>
+                                                <button className="btn btn-primary" onClick={this.handleCreateTeam}>Submit
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-xs-4">
+                            <div className="col-xs-12 col-md-12">
                                 <div className="panel panel-default">
-                                    <div className="panel-body">
+                                    <div className="panel-heading">
                                         Join a Team
+                                    </div>
+                                    <div className="panel-body">
                                         <form>
-                                            <label className="control-label col-sm-2">Code:</label>
+
                                             <div className="col-sm-10">
                                                 <input onChange={this.handleInputChangeCode} value={this.state.inputValueCode}
                                                        className="form-control" id="code" placeholder="Enter a team's code"/>
                                             </div>
                                         </form>
                                         <div className="form-group">
-                                            <div className="col-sm-offset-2 col-sm-10">
-                                                <button className="btn btn-default" onClick={this.handleJoinTeam}>Submit
+                                            <div className=" col-sm-10" style={{marginTop: "10px"}}>
+                                                <button className="btn btn-primary" onClick={this.handleJoinTeam}>Submit
                                                 </button>
                                             </div>
                                         </div>
