@@ -14,6 +14,8 @@ var router = new express.Router();
 // Use the apiRoutes module for any routes starting with "/api"
 router.use("/api", apiRoutes);
 
+const S3_BUCKET = process.env.S3_BUCKET_NAME;
+
 router.post("/sendSMS", (req, res) => {
     // Send SMS
     for(let x = 0; x < req.body.number.length; x++){
@@ -45,7 +47,7 @@ router.get('/sign-s3', function(req, res) {
     const fileName = req.query['file-name'];
     const fileType = req.query['file-type'];
     const s3Params = {
-        Bucket: "project-2",
+        Bucket: S3_BUCKET,
         Key: fileName,
         Expires: 60,
         ContentType: fileType,
