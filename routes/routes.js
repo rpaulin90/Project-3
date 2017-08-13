@@ -14,7 +14,7 @@ var router = new express.Router();
 // Use the apiRoutes module for any routes starting with "/api"
 router.use("/api", apiRoutes);
 
-const S3_BUCKET = process.env.S3_BUCKET_NAME;
+const S3_BUCKET = process.env.S3_BUCKET;
 
 router.post("/sendSMS", (req, res) => {
     // Send SMS
