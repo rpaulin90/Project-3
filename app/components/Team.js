@@ -10,6 +10,7 @@ var Draggable = require("react-draggable");
 import Field from "./common/Field";
 import CopyToClipboard from 'react-copy-to-clipboard';
 import ModalTeam from "./common/ModalTeam";
+import ModalChat from "./common/ModalChat";
 
 
 class Team extends Component {
@@ -19,6 +20,7 @@ class Team extends Component {
         this.state = {
             loading: true,
             isOpen: false,
+            isOpenChat: false,
             teamId: "",
             currentUid: "",
             managedTeams: [],
@@ -137,7 +139,9 @@ class Team extends Component {
         this.handleChange90 = this.handleChange90.bind(this);
         this.handleChange91 = this.handleChange91.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.toggleModalChat = this.toggleModalChat.bind(this);
         this.renderRoster = this.renderRoster.bind(this);
+        this.handleSMS = this.handleSMS.bind(this);
         //this.handleUnConfirm = this.handleUnConfirm.bind(this);
 
     }
@@ -170,7 +174,35 @@ class Team extends Component {
                     var name90 = this.state.name90;
                     var name91 = this.state.name91;
 
-                    if(res.data[1][0].calendarGames.length === 0){
+                    // var preSortedArray = res.data[1][0].calendarGames;
+                    // var preCounter = 0;
+                    // var preNextDate = moment(new Date(preSortedArray[preCounter].start));
+                    // nextEvent = preSortedArray[preCounter];
+                    //
+                    // while ((preNextDate.diff(moment(), "seconds") <= 0)) {
+                    //     preCounter++;
+                    //     if(preCounter >= preSortedArray.length){
+                    //         nextEvent = false;
+                    //     }
+                    // }
+
+                    var thereIsNextEvent;
+
+                    for(let x = 0; x < res.data[1][0].calendarGames.length; x++){
+
+                        if( moment(new Date(res.data[1][0].calendarGames[x].start)).diff(moment(), "seconds") <= 0){
+
+                            thereIsNextEvent = false;
+
+                        }
+                        else{
+                            thereIsNextEvent = true;
+                            break;
+                        }
+
+                    }
+
+                    if(res.data[1][0].calendarGames.length === 0 || thereIsNextEvent === false){
                         nextEvent = false;
 
                     }else{
@@ -209,10 +241,12 @@ class Team extends Component {
                         var nextDate = moment(new Date(sortedArray[counter].start));
                         nextEvent = sortedArray[counter];
 
-                        while (nextDate.diff(moment(), "seconds") <= 0) {
+                        while ((nextDate.diff(moment(), "seconds") <= 0)) {
                             counter++;
                             nextDate = moment(new Date(sortedArray[counter].start));
                             nextEvent = sortedArray[counter];
+
+
                         }
 
                         if(nextEvent.id !== res.data[1][0].nextEvent[0].id) {
@@ -349,6 +383,19 @@ class Team extends Component {
 
             console.log(res);
             this.setState({nextEvent: res.data[1].nextEvent[0], confirmed: true, participants:res.data[1].nextEvent[0].participants });
+
+        });
+
+
+    }
+
+    handleSMS(event) {
+
+        event.preventDefault();
+
+        API.sendSMS(["18328454966"],this.state.nextEvent).then((res) => {
+
+            console.log("reminder sent");
 
         });
 
@@ -640,6 +687,11 @@ class Team extends Component {
             isOpen: !this.state.isOpen
         })
     }
+    toggleModalChat() {
+        this.setState({
+            isOpenChat: !this.state.isOpenChat
+        })
+    }
     renderRoster() {
 
         console.log(this.state);
@@ -866,6 +918,23 @@ class Team extends Component {
                                 </div>
                             </div>
                         </ModalTeam>
+                        <ModalChat show={this.state.isOpenChat}
+                                   onClose={this.toggleModalChat}>
+                            <div style={{width: "100%", height: "100px"}} className="panel panel-default">
+
+                            </div>
+                            <div>
+                                    <textarea className="form-control" name="" id="" cols="30" rows="2">
+
+                                    </textarea>
+                            </div>
+                            <div className="form-group">
+                                <div>
+                                    <button type="cancel" className="btn btn-primary" onClick={console.log("submitted")}>Submit</button>
+                                    <button type="cancel" className="btn btn-default" onClick={this.toggleModalChat}>Cancel</button>
+                                </div>
+                            </div>
+                        </ModalChat>
                         <nav style={{marginBottom: "20px"}} className="navbar navbar-inverse">
                             <div className="container-fluid">
                                 <div className="navbar-header">
@@ -887,8 +956,8 @@ class Team extends Component {
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav">
-                                    <li className={location.pathname === "/" && "active"}>
-                                        <Link to="/">League Info</Link>
+                                    <li>
+                                        <a onClick={this.toggleModalChat}>Chat</a>
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right">
@@ -918,13 +987,25 @@ class Team extends Component {
                                             <p>{moment(new Date(this.state.nextEvent.start)).format("dddd, MMMM Do YYYY, h:mm:ss a")}</p>
                                             <h6>Additional comments</h6>
                                             <p>{this.state.nextEvent.notes}</p>
-                                            <div className="col-sm-offset-2 col-sm-10">
+                                            <div>
                                                 {this.state.confirmed ?
-                                                    <p>You are attending this event</p>
+                                                    <div>
+                                                        <p>You are attending this event</p>
+                                                        <button className="btn btn-default" onClick={this.handleSMS}>Send reminder</button>
+                                                    </div>
+
                                                     :
-                                                    <button className="btn btn-default" onClick={this.handleConfirm}>Confirm
-                                                        Attendance
-                                                    </button>
+                                                    <div className="row">
+                                                        <div className="col-xs-12 col-sm-6">
+                                                            <button className="btn btn-default" onClick={this.handleConfirm}>Confirm
+                                                                Attendance
+                                                            </button>
+                                                        </div>
+                                                        <div className="col-xs-12 col-sm-6">
+                                                            <button className="btn btn-default" onClick={this.handleSMS}>Send reminder</button>
+                                                        </div>
+                                                    </div>
+
                                                 }
                                             </div>
                                         </div>
@@ -1085,6 +1166,23 @@ class Team extends Component {
                                     </div>
                                 </div>
                             </ModalTeam>
+                            <ModalChat show={this.state.isOpenChat}
+                                       onClose={this.toggleModalChat}>
+                                <div style={{width: "100%", height: "250px"}} className="panel panel-default">
+
+                                </div>
+                                <div>
+                                    <textarea className="form-control" name="" id="" cols="30" rows="2">
+
+                                    </textarea>
+                                </div>
+                                <div className="form-group">
+                                    <div>
+                                        <button type="send" className="btn btn-primary" onClick={console.log("submitted")}>Submit</button>
+                                        <button type="cancel" className="btn btn-default" onClick={this.toggleModalChat}>Cancel</button>
+                                    </div>
+                                </div>
+                            </ModalChat>
                         </div>
                         <div className="col-xs-12 col-sm-6">
                             <div className="panel panel-default">

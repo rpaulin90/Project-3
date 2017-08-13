@@ -17,9 +17,12 @@ class Login extends Component {
     constructor() {
         super();
         this.state = {
+            profilePic: "https://via.placeholder.com/200x200",
             userInfo: "",
             loginForm: "Register",
             inputValueName: "",
+            inputValuePhone: "",
+            inputValueImage: "",
             inputValueEmail: "",
             inputValuePwd: "",
             inputValueTeam: "",
@@ -34,6 +37,8 @@ class Login extends Component {
         // callbacks and 'this' will change otherwise
         
         this.handleInputChangeName = this.handleInputChangeName.bind(this);
+        this.handleInputChangePhone = this.handleInputChangePhone.bind(this);
+        this.handleInputChangeImage = this.handleInputChangeImage.bind(this);
         this.handleInputChangeEmail = this.handleInputChangeEmail.bind(this);
         this.handleInputChangePwd = this.handleInputChangePwd.bind(this);
         this.handleInputChangeTeam = this.handleInputChangeTeam.bind(this);
@@ -45,6 +50,8 @@ class Login extends Component {
         this.getTeams = this.getTeams.bind(this);
         this.logout = this.logout.bind(this);
         this.changeForm = this.changeForm.bind(this);
+        this.getSignedRequestUser = this.getSignedRequestUser.bind(this);
+        this.uploadFileUser = this.uploadFileUser.bind(this);
     }
     componentDidMount() {
         this.fireBaseListener = auth.onAuthStateChanged((user) => {
@@ -65,6 +72,50 @@ class Login extends Component {
     handleInputChangeName(event) {
         this.setState({ inputValueName: event.target.value });
     }
+    handleInputChangePhone(event) {
+
+        this.setState({ inputValuePhone: event.target.value });
+    }
+    handleInputChangeImage(event) {
+        console.log(event.target.files);
+        let file = event.target.files[0];
+        this.getSignedRequestUser(file);
+
+
+    }
+    getSignedRequestUser(file){
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState === 4){
+                if(xhr.status === 200){
+                    const response = JSON.parse(xhr.responseText);
+                    this.uploadFileUser(file, response.signedRequest, response.url);
+                }
+                else{
+                    alert('Could not get signed URL.');
+                }
+            }
+        }
+        xhr.send();
+    }
+    uploadFileUser(file, signedRequest, url){
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', signedRequest);
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState === 4){
+                if(xhr.status === 200){
+                    this.setState({ profilePic: url });
+                    //document.getElementById('preview').src = url;
+                    //document.getElementById('avatar-url').value = url;
+                }
+                else{
+                    alert('Could not upload file.');
+                }
+            }
+        };
+        xhr.send(file);
+    }
     handleInputChangeEmail(event) {
         this.setState({ inputValueEmail: event.target.value });
     }
@@ -83,12 +134,13 @@ class Login extends Component {
         auth.createUserWithEmailAndPassword(that.state.inputValueEmail, that.state.inputValuePwd).then(function () {
             console.log("user registered with email: " + that.state.inputValueEmail);
             const userName = that.state.inputValueName;
+            const userPhone = "1" + that.state.inputValuePhone;
             const userEmail = that.state.inputValueEmail;
             const uid = auth.currentUser.uid;
             const managedTeams = [];
             const notManagedTeams = [];
-            API.newUser(userName,userEmail,uid, managedTeams, notManagedTeams).then(console.log("sent to database"));
-            that.setState({ inputValueName: "",inputValueEmail: "", inputValuePwd: "" });
+            API.newUser(userName,userPhone,userEmail,uid, managedTeams, notManagedTeams).then(console.log("sent to database"));
+            that.setState({ inputValueName: "",inputValuePhone: "",inputValueEmail: "", inputValuePwd: "" });
 
         }).catch(function (error) {
 
@@ -300,6 +352,10 @@ class Login extends Component {
                         <RegisterForm
                             handleInputChangeName = {this.handleInputChangeName}
                             inputValueName = {this.state.inputValueName}
+                            handleInputChangePhone = {this.handleInputChangePhone}
+                            inputValuePhone = {this.state.inputValuePhone}
+                            handleInputChangeImage = {this.handleInputChangeImage}
+                            inputValueImage = {this.state.inputValueImage}
                             handleInputChangeEmail = {this.handleInputChangeEmail}
                             inputValueEmail = {this.state.inputValueEmail}
                             handleInputChangePwd = {this.handleInputChangePwd}
@@ -308,6 +364,7 @@ class Login extends Component {
                             handleButtonClickLogin = {this.handleButtonClickLogin}
                             changeForm = {this.changeForm}
                             loginForm = {this.state.loginForm}
+                            profilePic = {this.state.profilePic}
                         />
                     </div>
                 }

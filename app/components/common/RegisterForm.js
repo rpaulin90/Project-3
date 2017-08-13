@@ -2,6 +2,7 @@
  * Created by rpaulin on 8/2/17.
  */
 import React, { Component } from "react";
+var FileInput = require('react-file-input');
 
 class RegisterForm extends Component {
 
@@ -20,6 +21,20 @@ class RegisterForm extends Component {
                                         <input onChange={this.props.handleInputChangeName} value={this.props.inputValueName}
                                                className="form-control" id="name" placeholder="Enter your name"/>
                                     </div>
+                                </div>
+                                <div className="form-group">
+                                    <label className="control-label col-sm-2">Phone:</label>
+                                    <div className="col-sm-10">
+                                        <input onChange={this.props.handleInputChangePhone} value={this.props.inputValuePhone}
+                                               className="form-control" id="phone" placeholder="Enter your cell phone number"/>
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <label className="control-label col-sm-2">Image:</label>
+                                    <div className="col-sm-10">
+                                        <img id="preview" src={this.props.profilePic} />
+                                        <FileInput type="file" className="form-control inputClass" id="file-input" onChange={this.props.handleInputChangeImage} value={this.props.inputValueImage}/>
+                                </div>
                                 </div>
                                 <div className="form-group">
                                     <label className="control-label col-sm-2">Email:</label>

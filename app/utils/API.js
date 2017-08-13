@@ -9,8 +9,8 @@ const API = {
         return axios.post("/api/getUserInfo", { uid });
     },
     // Saves a new user to the db
-    newUser: function(name,email,uid) {
-        return axios.post("/api/newUser", { name,email,uid });
+    newUser: function(name,phone,email,uid) {
+        return axios.post("/api/newUser", { name,phone,email,uid });
     },
     newTeam: function(uid,team,_id) {
         return axios.post("/api/newTeam", { uid,team,_id });
@@ -32,6 +32,10 @@ const API = {
     },
     saveLineup: function(teamId, deltas, names) {
         return axios.post("/api/saveLineup", { teamId, deltas, names });
+    },
+    sendSMS: function(number, nextEvent) {
+
+        return axios.post("/sendSMS", { number, nextEvent });
     }
     // deleteParticipant: function(teamId, uid,id, name) {
     //     return axios.post("/api/deleteParticipant", { teamId, uid, id, name });
