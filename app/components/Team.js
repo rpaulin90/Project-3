@@ -10,17 +10,16 @@ var Draggable = require("react-draggable");
 import Field from "./common/Field";
 import CopyToClipboard from 'react-copy-to-clipboard';
 import ModalTeam from "./common/ModalTeam";
-import ModalChat from "./common/ModalChat";
 
 
 class Team extends Component {
+
 
     constructor() {
         super();
         this.state = {
             loading: true,
             isOpen: false,
-            isOpenChat: false,
             teamId: "",
             currentUid: "",
             managedTeams: [],
@@ -139,7 +138,6 @@ class Team extends Component {
         this.handleChange90 = this.handleChange90.bind(this);
         this.handleChange91 = this.handleChange91.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
-        this.toggleModalChat = this.toggleModalChat.bind(this);
         this.renderRoster = this.renderRoster.bind(this);
         this.handleSMS = this.handleSMS.bind(this);
         //this.handleUnConfirm = this.handleUnConfirm.bind(this);
@@ -360,6 +358,7 @@ class Team extends Component {
 
             }
         });
+
     }
     componentWillUnmount() {
         this.fireBaseListener && this.fireBaseListener();
@@ -393,7 +392,17 @@ class Team extends Component {
 
         event.preventDefault();
 
-        API.sendSMS(["18328454966"],this.state.nextEvent).then((res) => {
+        let phoneArray = [];
+
+        let that = this;
+
+        for(let x = 0; x < that.state.teamInfo.members.length; x++){
+
+            phoneArray.push(that.state.teamInfo.members[x].phone)
+
+        }
+
+        API.sendSMS(phoneArray,this.state.nextEvent).then((res) => {
 
             console.log("reminder sent");
 
@@ -687,11 +696,7 @@ class Team extends Component {
             isOpen: !this.state.isOpen
         })
     }
-    toggleModalChat() {
-        this.setState({
-            isOpenChat: !this.state.isOpenChat
-        })
-    }
+
     renderRoster() {
 
         console.log(this.state);
@@ -704,14 +709,17 @@ class Team extends Component {
                     <li className="list-group-item">
                         <div className="row">
                             <div className="col-xs-6">
-                                <img src="http://via.placeholder.com/120x120" alt="placeholder"/>
+                                <img style={{height: "120px", width: "120px"}} src={player.profilePic} alt={player.name}/>
                             </div>
                             <div className="col-xs-6">
                                 <div className="col-xs-12">
-                                    {player.name}
+                                    Name: {player.name}
                                 </div>
                                 <div className="col-xs-12">
-                                    {player.email}
+                                    Email: {player.email}
+                                </div>
+                                <div className="col-xs-12">
+                                    Phone: {player.phone}
                                 </div>
                             </div>
                         </div>
@@ -723,6 +731,9 @@ class Team extends Component {
 
 
     }
+
+
+
 
     render() {
         const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
@@ -918,23 +929,6 @@ class Team extends Component {
                                 </div>
                             </div>
                         </ModalTeam>
-                        <ModalChat show={this.state.isOpenChat}
-                                   onClose={this.toggleModalChat}>
-                            <div style={{width: "100%", height: "100px"}} className="panel panel-default">
-
-                            </div>
-                            <div>
-                                    <textarea className="form-control" name="" id="" cols="30" rows="2">
-
-                                    </textarea>
-                            </div>
-                            <div className="form-group">
-                                <div>
-                                    <button type="cancel" className="btn btn-primary" onClick={console.log("submitted")}>Submit</button>
-                                    <button type="cancel" className="btn btn-default" onClick={this.toggleModalChat}>Cancel</button>
-                                </div>
-                            </div>
-                        </ModalChat>
                         <nav style={{marginBottom: "20px"}} className="navbar navbar-inverse">
                             <div className="container-fluid">
                                 <div className="navbar-header">
@@ -952,12 +946,7 @@ class Team extends Component {
                                 </ul>
                                 <ul className="nav navbar-nav">
                                     <li>
-                                        <a onClick={this.toggleModal}>Roster</a>
-                                    </li>
-                                </ul>
-                                <ul className="nav navbar-nav">
-                                    <li>
-                                        <a onClick={this.toggleModalChat}>Chat</a>
+                                        <a style={{cursor: "pointer"}} onClick={this.toggleModal}>Roster</a>
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right">
@@ -996,7 +985,7 @@ class Team extends Component {
 
                                                     :
                                                     <div className="row">
-                                                        <div className="col-xs-12 col-sm-6">
+                                                        <div className="col-xs-12 col-sm-6" style={{marginBottom: "10px"}}>
                                                             <button className="btn btn-default" onClick={this.handleConfirm}>Confirm
                                                                 Attendance
                                                             </button>
@@ -1047,7 +1036,7 @@ class Team extends Component {
                         </div>
 
                         <div style={{height: "530px",width: "700px", position: 'relative', overflowX: 'scroll', padding: '0px', margin: "auto"}}>
-                            <button className="btn btn-success" onClick={this.handleConfirmLineup}>Save Lineup
+                            <button style={{marginBottom: "10px"}} className="btn btn-success" onClick={this.handleConfirmLineup}>Save Lineup
                             </button>
                             <div style={{height: "530px",width: "700px", padding: '0px', backgroundImage: 'url(' + fieldUrl + ')', borderRadius: "3px"}}>
                                 <Draggable onDrag={this.handleDrag1} bounds="parent" {...dragHandlers}>
@@ -1166,23 +1155,6 @@ class Team extends Component {
                                     </div>
                                 </div>
                             </ModalTeam>
-                            <ModalChat show={this.state.isOpenChat}
-                                       onClose={this.toggleModalChat}>
-                                <div style={{width: "100%", height: "250px"}} className="panel panel-default">
-
-                                </div>
-                                <div>
-                                    <textarea className="form-control" name="" id="" cols="30" rows="2">
-
-                                    </textarea>
-                                </div>
-                                <div className="form-group">
-                                    <div>
-                                        <button type="send" className="btn btn-primary" onClick={console.log("submitted")}>Submit</button>
-                                        <button type="cancel" className="btn btn-default" onClick={this.toggleModalChat}>Cancel</button>
-                                    </div>
-                                </div>
-                            </ModalChat>
                         </div>
                         <div className="col-xs-12 col-sm-6">
                             <div className="panel panel-default">

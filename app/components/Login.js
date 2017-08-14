@@ -136,12 +136,13 @@ class Login extends Component {
         auth.createUserWithEmailAndPassword(that.state.inputValueEmail, that.state.inputValuePwd).then(function () {
             console.log("user registered with email: " + that.state.inputValueEmail);
             const userName = that.state.inputValueName;
+            const userPic = that.state.profilePic;
             const userPhone = "1" + that.state.inputValuePhone;
             const userEmail = that.state.inputValueEmail;
             const uid = auth.currentUser.uid;
             const managedTeams = [];
             const notManagedTeams = [];
-            API.newUser(userName,userPhone,userEmail,uid, managedTeams, notManagedTeams).then(console.log("sent to database"));
+            API.newUser(userName,userPhone,userPic,userEmail,uid, managedTeams, notManagedTeams).then(console.log("sent to database"));
             that.setState({ inputValueName: "",inputValuePhone: "",inputValueEmail: "", inputValuePwd: "" });
 
         }).catch(function (error) {
@@ -293,7 +294,8 @@ class Login extends Component {
                             <div className="col-xs-12 col-md-12">
                                 <div className="panel panel-default">
                                     <div className="panel-heading">
-                                        My Teams
+                                        <h5>My Teams</h5>
+                                        <h6><i className="fa fa-trophy" style={{color: "gold"}}/>  Managed Teams</h6>
                                     </div>
                                     <div>
                                         {this.renderTeams()}
@@ -306,7 +308,7 @@ class Login extends Component {
                             <div className="col-xs-12 col-md-12">
                                 <div className="panel panel-default">
                                     <div className="panel-heading">
-                                        Create a Team
+                                        <h5>Create a Team</h5>
                                     </div>
                                     <div className="panel-body">
                                         <form>
@@ -328,7 +330,7 @@ class Login extends Component {
                             <div className="col-xs-12 col-md-12">
                                 <div className="panel panel-default">
                                     <div className="panel-heading">
-                                        Join a Team
+                                        <h5>Join a Team</h5>
                                     </div>
                                     <div className="panel-body">
                                         <form>

@@ -9,8 +9,8 @@ const API = {
         return axios.post("/api/getUserInfo", { uid });
     },
     // Saves a new user to the db
-    newUser: function(name,phone,email,uid) {
-        return axios.post("/api/newUser", { name,phone,email,uid });
+    newUser: function(name,phone,profilePic,email,uid) {
+        return axios.post("/api/newUser", { name,phone,profilePic,email,uid });
     },
     newTeam: function(uid,team,_id) {
         return axios.post("/api/newTeam", { uid,team,_id });

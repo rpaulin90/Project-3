@@ -11,6 +11,7 @@ module.exports = {
         var newUser = new User({
             name: req.body.name,
             phone: req.body.phone,
+            profilePic: req.body.profilePic,
             email: req.body.email,
             uid: req.body.uid,
             confirmed: false,

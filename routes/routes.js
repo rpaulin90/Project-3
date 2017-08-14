@@ -22,11 +22,11 @@ router.post("/sendSMS", (req, res) => {
 
         nexmo.message.sendSms(
             "12034089142", req.body.number[x],
-            `Next event: ${req.body.nextEvent.title} \n
-            Start: ${req.body.nextEvent.start} \n
-            Comments: ${req.body.nextEvent.notes} \n
+            `Next event: ${req.body.nextEvent.title}\n
+            Start: ${req.body.nextEvent.start}\n
+            Comments: ${req.body.nextEvent.notes}\n
             
-            Please confirm your attendance by clicking here: http://about:blank
+            Please confirm your attendance by logging into the teams's account at:\n https://secret-atoll-95482.herokuapp.com/
             `, {type: 'unicode'},
             (err, responseData) => {if (responseData) {
 
