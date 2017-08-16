@@ -25,7 +25,8 @@ class ModalTeam extends React.Component {
 
         // The modal "window"
         const modalStyle = {
-            backgroundColor: '#fff',
+            //backgroundColor: '#fff',
+            backgroundImage: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/linedpaper.png")',
             borderRadius: 5,
             maxWidth: 500,
             minHeight: 300,

@@ -269,10 +269,10 @@ class Login extends Component {
     render() {
         return (
 
-            <div className="container-fluid">
+            <div>
                 {this.state.user ?
 
-                    <div className='wrapper'>
+                    <div className='wrapper container-fluid'>
                         <nav style={{marginBottom: "20px"}} className="navbar navbar-inverse">
                             <div className="container-fluid">
                                 <div className="navbar-header">
@@ -352,24 +352,58 @@ class Login extends Component {
                         </div>
                     </div>
                     :
-                    <div style={{marginTop: "100px"}}>
-                        <RegisterForm
-                            handleInputChangeName = {this.handleInputChangeName}
-                            inputValueName = {this.state.inputValueName}
-                            handleInputChangePhone = {this.handleInputChangePhone}
-                            inputValuePhone = {this.state.inputValuePhone}
-                            handleInputChangeImage = {this.handleInputChangeImage}
-                            inputValueImage = {this.state.inputValueImage}
-                            handleInputChangeEmail = {this.handleInputChangeEmail}
-                            inputValueEmail = {this.state.inputValueEmail}
-                            handleInputChangePwd = {this.handleInputChangePwd}
-                            inputValuePwd = {this.state.inputValuePwd}
-                            handleButtonClick = {this.handleButtonClick}
-                            handleButtonClickLogin = {this.handleButtonClickLogin}
-                            changeForm = {this.changeForm}
-                            loginForm = {this.state.loginForm}
-                            profilePic = {this.state.profilePic}
-                        />
+                    <div style={{backgroundImage: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/zwartevilt.png")'}}>
+                        <section style={{textAlign: "center", padding: '50px 0'}}>
+                            <div >
+                                <h3 style={{fontFamily: 'Bungee Outline, cursive', color: 'white'}}>Ready to take your Sunday league team to the next level?</h3>
+                                <br/>
+                                <ul style={{listStyle: "none"}}>
+                                    <li style={{color: "white"}}>Schedule events <i className="fa fa-check fa-2x" aria-hidden="true" style={{color: "green"}} /></li>
+                                    <li style={{color: "white"}}>add notes <i className="fa fa-check fa-2x" aria-hidden="true" style={{color: "green"}} /></li>
+                                    <li style={{color: "white"}}>confirm attendance <i className="fa fa-check fa-2x" aria-hidden="true" style={{color: "green"}} /></li>
+                                    <li style={{color: "white"}}>send reminders <i className="fa fa-check fa-2x" aria-hidden="true" style={{color: "green"}} /></li>
+                                    <li style={{color: "white"}}>set a lineup <i className="fa fa-check fa-2x" aria-hidden="true" style={{color: "green"}} /></li>
+                                    <li style={{color: "white"}}>never go into a game blindfolded ever again <i className="fa fa-check fa-2x" aria-hidden="true" style={{color: "green"}} /></li>
+                                </ul>
+                                <br/>
+                                <p style={{fontFamily: 'Muli, sans-serif', color: "white"}}>Register or Log In to get Started!</p>
+                                <i style={{color: "white"}} className="fa fa-hand-o-down fa-4x" aria-hidden="true" />
+                                <div className="row">
+
+                                    <div className="col-xs-5" style={{height: "20px", borderTop: "white dotted"}}>
+
+                                    </div>
+                                    <div className="col-xs-2" style={{height: "190px", borderRight: "white dotted", borderLeft: "white dotted"}}>
+
+                                    </div>
+                                    <div className="col-xs-5" style={{height: "20px", borderTop: "white dotted"}}>
+
+                                </div>
+
+                            </div>
+                            </div>
+                        </section>
+                        <section>
+                            <div>
+                                <RegisterForm
+                                    handleInputChangeName = {this.handleInputChangeName}
+                                    inputValueName = {this.state.inputValueName}
+                                    handleInputChangePhone = {this.handleInputChangePhone}
+                                    inputValuePhone = {this.state.inputValuePhone}
+                                    handleInputChangeImage = {this.handleInputChangeImage}
+                                    inputValueImage = {this.state.inputValueImage}
+                                    handleInputChangeEmail = {this.handleInputChangeEmail}
+                                    inputValueEmail = {this.state.inputValueEmail}
+                                    handleInputChangePwd = {this.handleInputChangePwd}
+                                    inputValuePwd = {this.state.inputValuePwd}
+                                    handleButtonClick = {this.handleButtonClick}
+                                    handleButtonClickLogin = {this.handleButtonClickLogin}
+                                    changeForm = {this.changeForm}
+                                    loginForm = {this.state.loginForm}
+                                    profilePic = {this.state.profilePic}
+                                />
+                            </div>
+                        </section>
                     </div>
                 }
 

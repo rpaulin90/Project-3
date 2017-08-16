@@ -703,15 +703,15 @@ class Team extends Component {
 
         return this.state.teamInfo.members.map((player,i) => (
 
-            <li key={i} className="list-group-item">
+            <li key={i} className="list-group-item" style={{backgroundImage: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/linedpaper.png")'}}>
 
                 <ul className="list-group" style={{maxHeight: "500px", overflowY: "scroll"}}>
-                    <li className="list-group-item">
+                    <li className="list-group-item" style={{backgroundImage: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/linedpaper.png")'}}>
                         <div className="row">
-                            <div className="col-xs-6">
+                            <div className="col-xs-4">
                                 <img style={{height: "120px", width: "120px"}} src={player.profilePic} alt={player.name}/>
                             </div>
-                            <div className="col-xs-6">
+                            <div className="col-xs-8">
                                 <div className="col-xs-12">
                                     Name: {player.name}
                                 </div>
@@ -905,7 +905,7 @@ class Team extends Component {
             }
         };
         return (
-            <div className="container-fluid">
+            <div style={{backgroundImage: "url('https://www.toptal.com/designers/subtlepatterns/patterns/zwartevilt.png')"}}>
 
                 {this.state.loading ?
 
@@ -929,7 +929,7 @@ class Team extends Component {
                                 </div>
                             </div>
                         </ModalTeam>
-                        <nav style={{marginBottom: "20px"}} className="navbar navbar-inverse">
+                        <nav style={{marginBottom: "20px", backgroundImage: "url('https://www.toptal.com/designers/subtlepatterns/patterns/zwartevilt.png')"}} className="navbar navbar-inverse">
                             <div className="container-fluid">
                                 <div className="navbar-header">
                                     <Link className="navbar-brand" to="/">Sunday League MGMT</Link>
@@ -956,11 +956,11 @@ class Team extends Component {
                                 </ul>
                             </div>
                         </nav>
-                        <div className="row">
+                        <div className="row container-fluid">
                             <div className="col-xs-12 col-sm-6">
-                                <div className="panel panel-default">
-                                    <div className="panel-heading">
-                                        {this.state.teamInfo.name}
+                                <div className="panel panel-default" style={{backgroundColor: "transparent", border: "white dotted", color: "white", fontFamily: 'Muli, sans-serif'}}>
+                                    <div className="panel-heading" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif'}}>
+                                        <h6 style={{color: "#b2dbfb"}}>{this.state.teamInfo.name}</h6>
                                         <p> - invite your friends, share the team's code: {this.state.teamId}</p>
                                         <CopyToClipboard text={this.state.teamId}
                                                          onCopy={() => this.setState({copied: true})}>
@@ -970,16 +970,16 @@ class Team extends Component {
                                     {this.state.nextEvent ?
 
                                         <div className="panel-body">
-                                            <h6>What</h6>
+                                            <h6 style={{color: "#b2dbfb"}}>What</h6>
                                             <p>{this.state.nextEvent.title}</p>
-                                            <h6>When</h6>
+                                            <h6 style={{color: "#b2dbfb"}}>When</h6>
                                             <p>{moment(new Date(this.state.nextEvent.start)).format("dddd, MMMM Do YYYY, h:mm:ss a")}</p>
-                                            <h6>Additional comments</h6>
+                                            <h6 style={{color: "#b2dbfb"}}>Additional comments</h6>
                                             <p>{this.state.nextEvent.notes}</p>
                                             <div>
                                                 {this.state.confirmed ?
                                                     <div>
-                                                        <p>You are attending this event</p>
+                                                        <p style={{color: "#36e636"}}>You are attending this event</p>
                                                         <button className="btn btn-default" onClick={this.handleSMS}>Send reminder</button>
                                                     </div>
 
@@ -1009,8 +1009,10 @@ class Team extends Component {
                                 </div>
                             </div>
                             <div className="col-xs-12 col-sm-6">
-                                <div className="panel panel-default">
-                                    <div className="panel-heading">Confirmed to go</div>
+                                <div className="panel panel-default" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif'}}>
+                                    <div className="panel-heading" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif'}}>
+                                        <h6 style={{color: "#b2dbfb"}}>Confirmed to go</h6>
+                                    </div>
                                     {this.state.nextEvent ?
 
                                         <div className="panel-body">
@@ -1111,7 +1113,7 @@ class Team extends Component {
                     :
 
                     <div>
-                        <nav style={{marginBottom: "20px"}} className="navbar navbar-inverse">
+                        <nav style={{marginBottom: "20px", backgroundImage: "url('https://www.toptal.com/designers/subtlepatterns/patterns/zwartevilt.png')"}} className="navbar navbar-inverse">
                             <div className="container-fluid">
                                 <div className="navbar-header">
                                     <Link className="navbar-brand" to="/">Sunday League MGMT</Link>
@@ -1156,41 +1158,47 @@ class Team extends Component {
                                 </div>
                             </ModalTeam>
                         </div>
-                        <div className="col-xs-12 col-sm-6">
-                            <div className="panel panel-default">
-                                <div className="panel-heading">{this.state.teamInfo.name}</div>
-                                {this.state.nextEvent ?
-
-                                    <div className="panel-body">
-                                        <h6>What</h6>
-                                        <p>{this.state.nextEvent.title}</p>
-                                        <h6>When</h6>
-                                        <p>{moment(new Date(this.state.nextEvent.start)).format("dddd, MMMM Do YYYY, h:mm:ss a")}</p>
-                                        <h6>Additional comments</h6>
-                                        <p>{this.state.nextEvent.notes}</p>
-                                        <div>
-                                            {this.state.confirmed ?
-                                                <p>You are attending this event</p>
-                                                :
-                                                <button className="btn btn-default" onClick={this.handleConfirm}>Confirm
-                                                    Attendance
-                                                </button>
-                                            }
+                        <div className="row container-fluid">
+                            <div className="col-xs-12 col-sm-6">
+                                <div className="panel panel-default" style={{backgroundColor: "transparent", border: "white dotted", fontFamily: 'Muli, sans-serif'}}>
+                                    <div className="panel-heading" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif'}}>
+                                        <h6 style={{color: "#b2dbfb"}}>{this.state.teamInfo.name}</h6>
                                         </div>
-                                    </div>
+                                    {this.state.nextEvent ?
 
-                                    :
+                                        <div className="panel-body">
+                                            <h6 style={{color: "#b2dbfb"}}>What</h6>
+                                            <p>{this.state.nextEvent.title}</p>
+                                            <h6 style={{color: "#b2dbfb"}}>When</h6>
+                                            <p>{moment(new Date(this.state.nextEvent.start)).format("dddd, MMMM Do YYYY, h:mm:ss a")}</p>
+                                            <h6 style={{color: "#b2dbfb"}}>Additional comments</h6>
+                                            <p>{this.state.nextEvent.notes}</p>
+                                            <div>
+                                                {this.state.confirmed ?
+                                                    <p style={{color: "#36e636"}}>You are attending this event</p>
+                                                    :
+                                                    <button className="btn btn-default" onClick={this.handleConfirm}>Confirm
+                                                        Attendance
+                                                    </button>
+                                                }
+                                            </div>
+                                        </div>
 
-                                    <div className="panel-body">
-                                        No future events scheduled
-                                    </div>
+                                        :
 
-                                }
+                                        <div className="panel-body">
+                                            No future events scheduled
+                                        </div>
+
+                                    }
+                                </div>
                             </div>
                         </div>
                         <div className="col-xs-12 col-sm-6">
-                            <div className="panel panel-default">
-                                <div className="panel-heading">Confirmed to go</div>
+                            <div className="panel panel-default" style={{backgroundColor: "transparent", fontFamily: 'Muli, sans-serif'}}>
+                                <div className="panel-heading" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif'}}>
+                                    <h6 style={{color: "#b2dbfb"}}>Confirmed to go</h6>
+                                    </div>
                                 {this.state.nextEvent ?
 
                                     <div className="panel-body">
