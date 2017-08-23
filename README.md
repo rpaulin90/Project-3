@@ -1,5 +1,7 @@
 # Project-3
 
+***Made with React JS, Node JS, MongoDB, Firebase Authentication***
+
 This website was created with the obtective to solve a personal problem. I am part of a soccer team that plays in a Sunday league in Houston, Texas. The problem is that we never know who will actually show up to the game and by the time the game is about to begin, we scramble to put together a lineup and explain people their roles. 
 
 This website serves as a team management tool. The users can create or join a team using a unique code that is given to the team creator.
