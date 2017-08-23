@@ -26,14 +26,12 @@ Lastly, the team manager can send SMS reminders to the team members whenever he 
 
 A very important feature of this management tool is the lineup section. In this section, the team manager can edit the position and name of each player and save the lineup. The rest of the team will then be able to see that lineup the next time they log into their account.
 
-<img width="728" alt="screen shot 2017-08-22 at 8 36 37 pm" src="https://user-images.githubusercontent.com/23643322/29595423-ffcc0802-877c-11e7-9d0c-0e90def40b08.png">
-
 <img width="722" alt="screen shot 2017-08-22 at 8 34 11 pm" src="https://user-images.githubusercontent.com/23643322/29595422-ffcb6366-877c-11e7-8bc3-2b871a463c69.png">
+
+<img width="728" alt="screen shot 2017-08-22 at 8 36 37 pm" src="https://user-images.githubusercontent.com/23643322/29595423-ffcc0802-877c-11e7-9d0c-0e90def40b08.png">
 
 As a bonus, the team roster is also available to everyone so they can look at contact info for each player and put a face to every name (believe it or not, sometimes people don't know who is who in a team...free agents).
 
 <img width="525" alt="screen shot 2017-08-22 at 8 38 16 pm" src="https://user-images.githubusercontent.com/23643322/29595421-ffcaf52a-877c-11e7-83d7-54601bd81430.png">
 
 
-![screenshot_20170822-203931](https://user-images.githubusercontent.com/23643322/29595474-3b6cf6e6-877d-11e7-843e-906fda291201.png)
-![screenshot_20170822-203949](https://user-images.githubusercontent.com/23643322/29595475-3b6e0068-877d-11e7-94bd-610eaea3c489.png)
