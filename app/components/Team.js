@@ -936,22 +936,22 @@ class Team extends Component {
                                 </div>
                                 <ul className="nav navbar-nav">
                                     <li className={location.pathname === "/" && "active"}>
-                                        <Link to="/">Home</Link>
+                                        <Link to="/"><i className="fa fa-home" /> Home</Link>
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav" >
                                     <li className={location.pathname === ("/calendar/"+this.state.teamId) && "active"}>
-                                        <Link to={"/calendar/"+this.state.teamId}>Calendar</Link>
+                                        <Link to={"/calendar/"+this.state.teamId}><i className="fa fa-calendar" /> Calendar</Link>
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav">
                                     <li>
-                                        <a style={{cursor: "pointer"}} onClick={this.toggleModal}>Roster</a>
+                                        <a style={{cursor: "pointer"}} onClick={this.toggleModal}><i className="fa fa-users" /> Roster</a>
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
-                                        <a onClick={this.logout} style={{cursor: "pointer"}}>Logout</a>
+                                        <a onClick={this.logout} style={{cursor: "pointer"}}><i className="fa fa-sign-out" /> Logout</a>
                                     </li>
                                 </ul>
                             </div>
@@ -964,7 +964,7 @@ class Team extends Component {
                                         <p> - invite your friends, share the team's code: {this.state.teamId}</p>
                                         <CopyToClipboard text={this.state.teamId}
                                                          onCopy={() => this.setState({copied: true})}>
-                                            <button className="btn btn-default">Copy to clipboard</button>
+                                            <button className="btn btn-default"><i className="fa fa-file-o" /> Copy to clipboard</button>
                                         </CopyToClipboard>
                                     </div>
                                     {this.state.nextEvent ?
@@ -980,13 +980,13 @@ class Team extends Component {
                                                 {this.state.confirmed ?
                                                     <div>
                                                         <p style={{color: "#36e636"}}>You are attending this event</p>
-                                                        <button className="btn btn-default" onClick={this.handleSMS}>Send reminder</button>
+                                                        <button className="btn btn-default" onClick={this.handleSMS}><i className="fa fa-envelope" /> Send reminder</button>
                                                     </div>
 
                                                     :
                                                     <div className="row">
                                                         <div className="col-xs-12 col-sm-6" style={{marginBottom: "10px"}}>
-                                                            <button className="btn btn-default" onClick={this.handleConfirm}>Confirm
+                                                            <button className="btn btn-default" onClick={this.handleConfirm}><i className="fa fa-football-o" /> Confirm
                                                                 Attendance
                                                             </button>
                                                         </div>
@@ -1010,7 +1010,7 @@ class Team extends Component {
                             </div>
                             <div className="col-xs-12 col-sm-6">
                                 <div className="panel panel-default" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif'}}>
-                                    <div className="panel-heading" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif'}}>
+                                    <div className="panel-heading" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif', border: "white dotted"}}>
                                         <h6 style={{color: "#b2dbfb"}}>Confirmed to go</h6>
                                     </div>
                                     {this.state.nextEvent ?
@@ -1028,7 +1028,7 @@ class Team extends Component {
 
                                         :
 
-                                        <div className="panel-body">
+                                        <div className="panel-body" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif', border: "white dotted"}}>
                                             No future events scheduled
                                         </div>
 
@@ -1038,7 +1038,7 @@ class Team extends Component {
                         </div>
 
                         <div style={{height: "530px",width: "700px", position: 'relative', overflowX: 'scroll', padding: '0px', margin: "auto"}}>
-                            <button style={{marginBottom: "10px"}} className="btn btn-success" onClick={this.handleConfirmLineup}>Save Lineup
+                            <button style={{marginBottom: "10px"}} className="btn btn-success" onClick={this.handleConfirmLineup}><i className="fa fa-floppy-o" /> Save Lineup
                             </button>
                             <div style={{height: "530px",width: "700px", padding: '0px', backgroundImage: 'url(' + fieldUrl + ')', borderRadius: "3px"}}>
                                 <Draggable onDrag={this.handleDrag1} bounds="parent" {...dragHandlers}>
@@ -1120,27 +1120,22 @@ class Team extends Component {
                                 </div>
                                 <ul className="nav navbar-nav">
                                     <li className={location.pathname === "/" && "active"}>
-                                        <Link to="/">Home</Link>
+                                        <Link to="/"><i className="fa fa-home" /> Home</Link>
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav" >
                                     <li className={location.pathname === ("/calendar/"+this.state.teamId) && "active"}>
-                                        <Link to={"/calendar/"+this.state.teamId}>Calendar</Link>
+                                        <Link to={"/calendar/"+this.state.teamId}><i className="fa fa-calendar" /> Calendar</Link>
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav">
                                     <li>
-                                        <a onClick={this.toggleModal}>Roster</a>
-                                    </li>
-                                </ul>
-                                <ul className="nav navbar-nav">
-                                    <li className={location.pathname === "/" && "active"}>
-                                        <Link to="/">League Info</Link>
+                                        <a onClick={this.toggleModal}><i className="fa fa-users" /> Roster</a>
                                     </li>
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
-                                        <a onClick={this.logout} style={{cursor: "pointer"}}>Logout</a>
+                                        <a onClick={this.logout} style={{cursor: "pointer"}}><i className="fa fa-sign-out" /> Logout</a>
                                     </li>
                                 </ul>
                             </div>
@@ -1152,7 +1147,7 @@ class Team extends Component {
                                     {this.renderRoster()}
                                 </ul>
                                 <div className="form-group">
-                                    <div className="col-lg-10 col-lg-offset-2">
+                                    <div>
                                         <button type="cancel" className="btn btn-default" onClick={this.toggleModal}>Cancel</button>
                                     </div>
                                 </div>
@@ -1166,7 +1161,7 @@ class Team extends Component {
                                         </div>
                                     {this.state.nextEvent ?
 
-                                        <div className="panel-body">
+                                        <div className="panel-body" style={{color: "white"}}>
                                             <h6 style={{color: "#b2dbfb"}}>What</h6>
                                             <p>{this.state.nextEvent.title}</p>
                                             <h6 style={{color: "#b2dbfb"}}>When</h6>
@@ -1177,7 +1172,7 @@ class Team extends Component {
                                                 {this.state.confirmed ?
                                                     <p style={{color: "#36e636"}}>You are attending this event</p>
                                                     :
-                                                    <button className="btn btn-default" onClick={this.handleConfirm}>Confirm
+                                                    <button className="btn btn-default" onClick={this.handleConfirm}><i className="fa fa-football-o" /> Confirm
                                                         Attendance
                                                     </button>
                                                 }
@@ -1186,39 +1181,39 @@ class Team extends Component {
 
                                         :
 
-                                        <div className="panel-body">
+                                        <div className="panel-body" style={{color: "white"}}>
                                             No future events scheduled
                                         </div>
 
                                     }
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-xs-12 col-sm-6">
-                            <div className="panel panel-default" style={{backgroundColor: "transparent", fontFamily: 'Muli, sans-serif'}}>
-                                <div className="panel-heading" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif'}}>
-                                    <h6 style={{color: "#b2dbfb"}}>Confirmed to go</h6>
+                            <div className="col-xs-12 col-sm-6">
+                                <div className="panel panel-default" style={{backgroundColor: "transparent", fontFamily: 'Muli, sans-serif'}}>
+                                    <div className="panel-heading" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif', border: "white dotted"}}>
+                                        <h6 style={{color: "#b2dbfb"}}>Confirmed to go</h6>
                                     </div>
-                                {this.state.nextEvent ?
+                                    {this.state.nextEvent ?
 
-                                    <div className="panel-body">
-                                        {
-                                            this.state.participants.map((participant,i) => (
-                                                <div key={i}>
-                                                    <p>{participant.name}</p>
-                                                </div>
-                                            ))
+                                        <div className="panel-body" style={{color: "white"}}>
+                                            {
+                                                this.state.participants.map((participant,i) => (
+                                                    <div key={i}>
+                                                        <p>{participant.name}</p>
+                                                    </div>
+                                                ))
 
-                                        }
-                                    </div>
+                                            }
+                                        </div>
 
-                                    :
+                                        :
 
-                                    <div className="panel-body">
-                                        No future events scheduled
-                                    </div>
+                                        <div className="panel-body" style={{backgroundColor: "transparent", color: "white", fontFamily: 'Muli, sans-serif', border: "white dotted"}}>
+                                            No future events scheduled
+                                        </div>
 
-                                }
+                                    }
+                                </div>
                             </div>
                         </div>
 

@@ -20,7 +20,8 @@ class ModalTeam extends React.Component {
             right: 0,
             backgroundColor: 'rgba(0,0,0,0.3)',
             padding: 50,
-            zIndex: 1000
+            zIndex: 1000,
+            overflowY: "scroll"
         };
 
         // The modal "window"

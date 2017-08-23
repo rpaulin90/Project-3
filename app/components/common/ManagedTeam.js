@@ -7,26 +7,30 @@ import { Link } from "react-router";
 
 class ManagedTeam extends Component {
 
+    deleteTeam(id) {
+        API.deleteTeam(id).then(this.props.getTeams);
+    }
+
     render() {
         return (
 
             <div className="container-fluid">
-                <div className="panel panel-default" style={{margin: "10px"}}>
+                <div className="panel panel-default" style={{backgroundColor: "transparent", border: "white dotted", margin: "10px"}}>
                     <div className="panel-body" style={{cursor: "pointer"}}>
-                        <i
-                            //onClick={() => this.favoriteQuote(this.props.quote)}
-                            style={styles.favoriteStyle}
-                            className="fa fa-trophy"
-                            aria-hidden="true"
-                        />
-                        <i
-                            //onClick={() => this.deleteQuote(this.props.quote._id)}
-                            style={styles.deleteStyle}
-                            className="fa fa-trash-o"
-                            aria-hidden="true"
-                        />
-                        <li className={location.pathname === ("/team/"+this.props._id) && "active"}>
-                            <Link to={"/team/"+this.props._id}>{this.props.team}</Link>
+
+                        <li style={{listStyle: "none"}} className={location.pathname === ("/team/"+this.props._id) && "active"}>
+                            <Link to={"/team/"+this.props._id}><i
+                                //onClick={() => this.favoriteQuote(this.props.quote)}
+                                style={styles.favoriteStyle}
+                                className="fa fa-trophy"
+                                aria-hidden="true"
+                            /> {this.props.team}</Link>
+                            <i
+                                onClick={() => this.deleteTeam(this.props._id)}
+                                style={styles.deleteStyle}
+                                className="fa fa-trash-o"
+                                aria-hidden="true"
+                            />
                         </li>
                     </div>
                 </div>

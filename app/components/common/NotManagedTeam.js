@@ -10,7 +10,7 @@ class NotManagedTeam extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <div className="panel panel-default" style={{margin: "10px"}}>
+                <div className="panel panel-default" style={{margin: "10px", border: "white dotted", backgroundColor: "transparent"}} >
                     <div className="panel-body" style={{cursor: "pointer"}}>
                         <i
                             //onClick={() => this.deleteQuote(this.props.quote._id)}
@@ -18,7 +18,7 @@ class NotManagedTeam extends Component {
                             className="fa fa-trash-o"
                             aria-hidden="true"
                         />
-                        <li className={location.pathname === ("/team/"+this.props._id) && "active"}>
+                        <li style={{listStyle: "none"}} className={location.pathname === ("/team/"+this.props._id) && "active"}>
                             <Link to={"/team/"+this.props._id}>{this.props.team}</Link>
                         </li>
                     </div>

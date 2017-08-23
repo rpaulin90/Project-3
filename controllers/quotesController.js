@@ -60,6 +60,17 @@ module.exports = {
 
     },
 
+    // This method handles deleting quotes
+    deleteTeam: function(req, res) {
+        Team.remove({
+            _id: req.params.id
+        }).then(function(doc) {
+            res.send("team deleted");
+        }).catch(function(err) {
+            res.send(err);
+        });
+    },
+
     joinTeam: function(req,res) {
 
         Team.findOneAndUpdate({ "_id": req.body.code }, { $push: { "members": req.body._id }}, function(err, doc) {

@@ -13,7 +13,8 @@ router.post("/addEvent", quotesController.addEvent);
 router.post("/addParticipant", quotesController.addParticipant);
 router.post("/updateNextEvent", quotesController.updateNextEvent);
 router.post("/saveLineup", quotesController.saveLineup);
-//router.post("/deleteParticipant", quotesController.deleteParticipant);
+router.delete("/deleteTeam/:id", quotesController.deleteTeam);
+
 
 
 module.exports = router;

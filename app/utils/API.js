@@ -15,6 +15,10 @@ const API = {
     newTeam: function(uid,team,_id) {
         return axios.post("/api/newTeam", { uid,team,_id });
     },
+    // Deletes a quote from the db
+    deleteTeam: function(id) {
+        return axios.delete(`/api/deleteTeam/${id}`);
+    },
     joinTeam: function(uid,code, _id) {
         return axios.post("/api/joinTeam", { uid,code, _id });
     },

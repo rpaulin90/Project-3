@@ -52,6 +52,7 @@ class Login extends Component {
         this.changeForm = this.changeForm.bind(this);
         this.getSignedRequestUser = this.getSignedRequestUser.bind(this);
         this.uploadFileUser = this.uploadFileUser.bind(this);
+        //this.deleteTeam = this.deleteTeam.bind(this);
     }
     componentDidMount() {
         this.fireBaseListener = auth.onAuthStateChanged((user) => {
@@ -184,6 +185,19 @@ class Login extends Component {
 
 
     }
+
+    // deleteTeam(id) {
+    //
+    //     //event.preventDefault();
+    //     //const team = this.state.inputValueTeam;
+    //
+    //
+    //     API.deleteTeam(id).then(this.getTeams);
+    //     //this.setState({ inputValueTeam: "" });
+    //
+    //
+    // }
+
     handleJoinTeam(event) {
 
         event.preventDefault();
@@ -233,6 +247,7 @@ class Login extends Component {
                 key={i}
                 getTeams={this.getTeams}
                 uid={this.state.currentUid}
+                //deleteTeam={this.deleteTeam}
             />
         ));
 
@@ -272,30 +287,30 @@ class Login extends Component {
             <div>
                 {this.state.user ?
 
-                    <div className='wrapper container-fluid'>
-                        <nav style={{marginBottom: "20px"}} className="navbar navbar-inverse">
+                    <div className='wrapper'>
+                        <nav style={{marginBottom: "20px", backgroundColor: "transparent"}} className="navbar navbar-inverse">
                             <div className="container-fluid">
                                 <div className="navbar-header">
                                     <Link className="navbar-brand" to="/">Sunday League MGMT</Link>
                                 </div>
-                                <ul className="nav navbar-nav">
-                                    <li className={location.pathname === "/" && "active"}>
-                                        <Link to="/">Home</Link>
-                                    </li>
-                                </ul>
+                                {/*<ul className="nav navbar-nav">*/}
+                                    {/*<li className={location.pathname === "/" && "active"}>*/}
+                                        {/*<Link to="/"><i className="fa fa-home" /> Home</Link>*/}
+                                    {/*</li>*/}
+                                {/*</ul>*/}
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
-                                        <a onClick={this.logout} style={{cursor: "pointer"}}>Logout</a>
+                                        <a onClick={this.logout} style={{cursor: "pointer"}}><i className="fa fa-sign-out" /> Logout</a>
                                     </li>
                                 </ul>
                             </div>
                         </nav>
-                        <div className="row">
+                        <div className="row container-fluid">
                             <div className="col-xs-12 col-md-12">
-                                <div className="panel panel-default">
-                                    <div className="panel-heading">
-                                        <h5>My Teams</h5>
-                                        <h6><i className="fa fa-trophy" style={{color: "gold"}}/>  Managed Teams</h6>
+                                <div className="panel panel-default" style={{backgroundColor: "transparent", border: "white dotted"}}>
+                                    <div className="panel-heading" style={{backgroundColor: "transparent", borderBottom: "white dotted"}}>
+                                        <h5 style={{color: "#b2dbfb"}}>My Teams</h5>
+                                        <h6 style={{color: "#a5b8c7"}}><i className="fa fa-trophy" style={{color: "gold"}}/>  Managed Teams</h6>
                                     </div>
                                     <div>
                                         {this.renderTeams()}
@@ -306,9 +321,9 @@ class Login extends Component {
                                 </div>
                             </div>
                             <div className="col-xs-12 col-md-12">
-                                <div className="panel panel-default">
-                                    <div className="panel-heading">
-                                        <h5>Create a Team</h5>
+                                <div className="panel panel-default" style={{backgroundColor: "transparent", border: "white dotted"}}>
+                                    <div className="panel-heading" style={{backgroundColor: "transparent", borderBottom: "white dotted"}}>
+                                        <h5 style={{color: "#b2dbfb"}}>Create a Team</h5>
                                     </div>
                                     <div className="panel-body">
                                         <form>
@@ -328,9 +343,9 @@ class Login extends Component {
                                 </div>
                             </div>
                             <div className="col-xs-12 col-md-12">
-                                <div className="panel panel-default">
-                                    <div className="panel-heading">
-                                        <h5>Join a Team</h5>
+                                <div className="panel panel-default" style={{backgroundColor: "transparent", border: "white dotted"}}>
+                                    <div className="panel-heading" style={{backgroundColor: "transparent", borderBottom: "white dotted"}}>
+                                        <h5 style={{color: "#b2dbfb"}}>Join a Team</h5>
                                     </div>
                                     <div className="panel-body">
                                         <form>
