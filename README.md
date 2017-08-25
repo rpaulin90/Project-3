@@ -3,6 +3,7 @@
 ***Made with React JS, Node JS, MongoDB, Firebase Authentication***
 
 ***To see how it works, follow these instructions:***
+- go to: http://secret-atoll-95482.herokuapp.com/
 - Register with a new email or log in using the following credentials:
   - email: rpaulin1990@gmail.com
   - password: password
