@@ -25,6 +25,8 @@ If you want someone else to join your team, share the code that is on the top of
 
 That's it! Below is an explanation of why I made this website and a short tour through its features (with images!).
 
+---
+
 This website was created with the objective of solving a personal problem. I am part of a soccer team that plays in a Sunday league in Houston, Texas. The problem is that we never know who will actually show up to the game and by the time the game is about to begin, we scramble to put together a lineup and explain people their roles. 
 
 This website serves as a team management tool. The users can create or join a team using a unique code that is given to the team creator.
